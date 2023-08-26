@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Load TensorFlow.js. This is required to use MobileNet. -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.1"> </script> -->
+    <!-- Load the MobileNet model. -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@1.0.0"> </script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"> </script> -->
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://unpkg.com/cropperjs/dist/cropper.min.css">
+</head>
+<body x-data="cropperData" class="overflow-x-hidden">
+    <div class="flex flex-col justify-center items-center h-screen" x-show="!_hasImage">
+        <div class="grid min-w-[300px]">
+                        <div class="flex items-center mb-2"><span x-html="computerIcon" class="me-1 text-2xl"></span>Upload image from your computer:</div>
+                    <input hidden type="file" id="file" name="file" accept="image/*" @change="onFileChange">
+                    <label for="file" class="text-center cursor-pointer border-2 bg-gray-300 rounded border-dashed border-gray-400 p-5">Select Image</label>
+                    <div class="mt-3 flex items-center"> <span x-html="linkIcon" class="me-1 text-2xl"></span>Or paste image URL:</div>
+                    <input x-ref="inputUrl" placeholder="E.g: http://example.com/image.png" type="text" @change="setImage(event.target.value,true);" class="form-input mt-2 border border-sm bg-gray-300 px-2 py-1" pattern="https?://.+">
+
+
+
+                   
+
+        </div>
+
+        <div x-show="_inputImage.status === 'loading'" class="mt-2 flex justify-center items-center">
+            <div class="animate-spin me-2 inline-flex" >
+                <span x-html="spinnerIcon"></span>
+            </div>
+            <span>Loading</span>
+        </div>
+        <div x-show="_inputImage.status === 'error'" class="mt-2 bg-red-100 border border-red-400 text-red-700 ps-4 pe-10 py-3 rounded relative" role="alert">
+            <strong class="font-bold">Error!</strong>
+            <span class="block sm:inline" style="word-wrap: break-word;">There was an error processing your request.</span>
+            <span @click="_inputImage.status = 'idle'" class="absolute cursor-pointer top-0 bottom-0 right-0 px-4 py-3">
+                <span class="text-2xl" x-html="removeIcon"></span>
+            </span>
+        </div>
+        
+    </div>
+    <div class="h-screen overflow-hidden flex flex-col" x-show="_hasImage">
+        <div class="w-screen flex bg-gray-700 items-center">
+            <div class="container mx-auto flex items-center z-10">
+                <div class="flex items-center ms-2 justify-center text-red-500 cursor-pointer text-2xl  relative
+                    before:absolute before:bg-white before:inset-1.5     before:-z-10 before:rounded-full
+                " x-html="removeIcon" @click="removeImage(true)"></div>
+                <div class="ms-auto relative flex text-white items-center my-0.5">
+
+                    <div class="bg-gray-700 text-white me-2">
+                        <div class="container flex justify-between mx-auto">
+                            <span></span>
+                            <div class="flex items-center">
+                                <button @click="handleCropButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded disabled:opacity-50 disabled:pointer-events-none">
+                                    Crop
+                                </button>
+                                <span class="[&.data-copied]:before:content-['COPIED'] before:bg-white/75 before:text-sm before:duration-2500 before:transition-opacity before:px-1 before:rounded before:opacity-0 hover:before:opacity-100 before:left-1/2 before:-translate-x-1/2 cursor-pointer before:absolute before:top-full  relative empty:before:content-[''] before:content-['COPY'] mx-2 hover:text-sky-500" @click="copyToClipboard(event)" x-text="uploadInfo.imgur"></span>
+                                <span class="mx-2 animate-spin" x-show="uploadInfo.status === 'loading'" x-html="spinnerIcon">Uploading...</span>
+                                <button x-bind:disabled="uploadInfo.status === 'loading'" @click="uploadImageImgur" class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded disabled:opacity-50 disabled:pointer-events-none">
+                                    <span x-show="uploadInfo.status == 'idle'">Imgur</span>
+                                    <span class="animate-pulse" x-show="uploadInfo.status === 'loading'">. . .</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <span @click="detectObjects.show = !detectObjects.show" class="cursor-pointer select-none" >
+                        <span x-text="detectObjects.objectsList.length" 
+                        class="before:content-['Detected'] before:me-1 inline-flex items-center px-1.5 py-0.25 rounded-md text-sm font-medium bg-green-100 text-green-800" 
+                        x-show="detectObjects.status === 'success'">
+                        </span>
+                    </span>
+                    <span class="ms-1" x-show="detectObjects.status === 'loading'">Loading</span>
+                    <span x-show="detectObjects.status === 'failed'">[FAILED]</span>
+                    <span x-show="detectObjects.show" class="absolute bottom-0 z-10 translate-y-full right-0">
+                        <ul class="bg-white/75 text-black not:empty:p-4 rounded-sm">
+                            <template x-if="detectObjects.status === 'success'">
+                                <template x-if="detectObjects.objectsList.length > 0">
+                                    <template x-for="(item, index) in detectObjects.objectsList" :key="index">
+                                        <li class="cursor-pointer flex items-center hover:bg-black/75 hover:text-white" @click="setSelectedBox(index)">
+                                            <span class="ps-1 text-sky-700" x-html="boundingBoxIcon"></span>
+                                            <span class="px-1" x-html="item.class">[class]</span>
+                                        </li>
+                                    </template>
+                                </template>
+                            </template>
+                        </ul>
+                    </span>
+
+                </div>
+            </div>
+        </div>
+        <div class="h-[50%] flex-grow">
+            <img x-ref="imageRef"  x-on:load="handleImageLoaded(event);"  crossorigin="anonymous" id="image" >
+        </div>
+    </div>
+</body>
+<script type="module" src="./script.js"></script>
+<!-- window.Alpine.closestDataStack(document.body)[0].handleImageLoaded(); -->
+</html>
