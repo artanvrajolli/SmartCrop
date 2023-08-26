@@ -4,5 +4,8 @@ module.exports = {
     worker: {
       format: 'es',
     },
+    build:{
+      outDir: '../dist',
+    },
     base: '',
 };
