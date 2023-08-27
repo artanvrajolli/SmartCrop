@@ -1,6 +1,7 @@
 
 import Cropper from 'cropperjs';
 import Alpine from 'alpinejs';
+import moment from 'moment';
 window.Alpine = Alpine
 
 Alpine.data('cropperData', () => ({
@@ -29,6 +30,11 @@ Alpine.data('cropperData', () => ({
         status: 'idle',
         imgur: null
     },
+    recentImages: {
+        status: 'loading',
+        imagesList: [],
+    },
+   
     init: function () {
         this.workerIndexedDB.onmessage = (e) => {
             const {type} = e.data;
@@ -40,18 +46,30 @@ Alpine.data('cropperData', () => ({
                     window.history.pushState({}, '', `#id=${e.data.result}`);
                 break;
                 case 'getImage':
+                    window.history.pushState({}, '', `#id=${e.data.result.id}`);
                     if(e.data.result){
                         let {dataBlob} = e.data.result;
                         let url = URL.createObjectURL(dataBlob);
                         this.setImage(url,false);
-                        this.$refs.imageRef.setAttribute('data-cached','true');
                     }
+                break;
+                case 'gotImages':
+                    console.log('got images',e.data.result);
+                    this.recentImages.status = 'idle';
+                    let result = e?.data?.result ?? [];
+                    result.forEach((item) => {
+                        item['create_at_moment'] = moment(new Date(item.created_at)).fromNow()
+                    });
+                    this.recentImages.imagesList = result;
                 break;
                 default:
                     console.log('Unknown message type', type);
             }
         };
         // this.workerIndexedDB.postMessage({type:'ping'});
+        this.workerIndexedDB.postMessage({
+            type: 'getImages', offset:0 , limit: 5
+        });
 
         this.workerModel.onmessage = (e) => {
             const {type} = e.data;
@@ -78,10 +96,7 @@ Alpine.data('cropperData', () => ({
 
         let id = window.location.hash.match(/#id=(\d+)/)?.[1];
         if(id){
-            this.workerIndexedDB.postMessage({
-                type: 'getImage',
-                id: id,
-            });
+            this.loadImageFromId(id);
         }
 
         window.addEventListener('popstate', (event) => {
@@ -95,6 +110,12 @@ Alpine.data('cropperData', () => ({
             }else{
                 this.removeImage();
             }
+        });
+    },
+    loadImageFromId: function (id) {
+        this.workerIndexedDB.postMessage({
+            type: 'getImage',
+            id: id,
         });
     },
     onFileChange: function (event) {
@@ -126,6 +147,11 @@ Alpine.data('cropperData', () => ({
         this.uploadInfo.imgur = null;
         this.$refs.inputUrl.value = '';
         this._inputImage.status = 'idle';
+        
+        this.workerIndexedDB.postMessage({
+            type: 'getImages', offset:0 , limit: 5
+        });
+
     },
     initCropper: function () {
         if(this.cropper){
@@ -190,9 +216,19 @@ Alpine.data('cropperData', () => ({
             // check if window.location.hash has id
             let id = window.location.hash.match(/#id=(\d+)/)?.[1];
             if(!id){
+                // generate thumbnail blob
+                let thumbnailCanvas = document.createElement('canvas');
+                let thumbnailCtx = thumbnailCanvas.getContext('2d');
+                let thumbnailSize = 100;
+                let thumbnailScale = Math.min(thumbnailSize / canvas.width, thumbnailSize / canvas.height);
+                thumbnailCanvas.width = canvas.width * thumbnailScale;
+                thumbnailCanvas.height = canvas.height * thumbnailScale;
+                thumbnailCtx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, thumbnailCanvas.width, thumbnailCanvas.height);
+                let thumbnailBlob = await new Promise(resolve => thumbnailCanvas.toBlob(resolve, 'image/jpeg', 0.8));
                 this.workerIndexedDB.postMessage({
                     type: 'addImage',
                     dataBlob: blob,
+                    dataBlobThumbnail: thumbnailBlob,
                     generatedID: await generateHashBlob(blob),
                 });
             }

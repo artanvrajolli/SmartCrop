@@ -13,7 +13,7 @@ class storeIndexedDB{
         request.onsuccess = (event)=> {
             this.initIndexedDB('success',event);
         };
-    }    
+    }
 
     initIndexedDB(type,event){
         if(!['upgrade','success'].includes(type)){
@@ -51,12 +51,12 @@ class storeIndexedDB{
     }
 
 
-    addImage(dataBlob,generatedID,callback = ()=>{}){
+    addImage(dataBlob,generatedID,dataBlobThumbnail,callback = ()=>{}){
         if(!this.db){
             // push this function and dataBlob to queueJobs
             this.queueJobs.push({
                 type: 'addImage',
-                args: [dataBlob,generatedID,callback]
+                args: [dataBlob,generatedID,dataBlobThumbnail,callback]
             });
             return;
         }
@@ -91,6 +91,7 @@ class storeIndexedDB{
                 created_at: new Date(),
                 dataBlob,
                 generatedID,
+                dataBlobThumbnail
             });
             request.onsuccess = function(event) {
                 let {result} = event.target;
@@ -127,6 +128,42 @@ class storeIndexedDB{
 
     }
 
+
+    getImages(offset,limit,callback = ()=>{}){
+        if(!this.db){
+            this.queueJobs.push({
+                type: 'getImages',
+                args: [offset,limit,callback]
+            });
+            return;
+        }
+        let transaction = this.db.transaction(['images'], 'readonly');
+        let objectStore = transaction.objectStore('images');
+       
+        let request = objectStore.openCursor(null, 'prev');
+        let results = [];
+
+
+        request.onerror = function(event) {
+          console.log('Error getting data: ' + event.target.errorCode);
+        };
+        request.onsuccess = function(event) {
+            let cursor = event.target.result;
+            if (cursor && results.length < limit) {
+                if (offset > 0) {
+                    cursor.advance(offset);
+                    offset = 0;
+                } else {
+                    results.push(cursor.value);
+                    cursor.continue();
+                }
+            } else {
+                callback(results,'success');
+            }
+        };
+
+    }
+
 }
 
 const sIDB = new storeIndexedDB();
@@ -139,10 +176,29 @@ onmessage = function(event){
     switch(type){
         case 'ping':
             console.log('---[Worker IndexedDB Alive]---');
+            sIDB.getImages(0,4,(result,status)=>{
+                postMessage({
+                    type: 'ping',
+                    result,
+                    status,
+                });
+            });
         break;
+        
+        case 'getImages':
+            const {offset,limit} = event?.data ?? {offset:0,limit:4};
+            sIDB.getImages(offset,limit,(result,status)=>{
+                postMessage({
+                    type: 'gotImages',
+                    result,
+                    status,
+                });
+            });
+        break;
+
         case 'addImage':
-            const {dataBlob,generatedID} = event?.data ?? {dataBlob:null,callback:()=>{}};
-            sIDB.addImage(dataBlob,generatedID,(result,status)=>{
+            const {dataBlob,generatedID,dataBlobThumbnail} = event?.data ?? {dataBlob:null,callback:()=>{}};
+            sIDB.addImage(dataBlob,generatedID,dataBlobThumbnail,(result,status)=>{
                 postMessage({
                     type: 'addedImage',
                     result,

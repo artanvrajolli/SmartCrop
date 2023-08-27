@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "alpinejs": "^3.12.3",
-    "cropperjs": "^1.5.13"
+    "cropperjs": "^1.5.13",
+    "moment": "^2.29.4"
   }
 }
