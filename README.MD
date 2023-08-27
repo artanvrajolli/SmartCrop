@@ -1,6 +1,6 @@
 # SmartCrop
 
-SmartCrop is a web application that uses Mobilenet to detect images and help users to crop images. It is built with Vite, Mobilenet, Tailwind CSS, and Aline.js.
+SmartCrop is a web application that uses Mobilenet to detect images and help users to crop images. It is built with Vite, Mobilenet, Tailwind CSS, Cropperjs and Aline.js.
 
 ## Demo
 - [Website](https://artanvrajolli.github.io/smartcrop/)
@@ -28,6 +28,8 @@ SmartCrop uses web workers to offload the heavy computation of image detection t
 ## IndexedDB
 SmartCrop uses IndexedDB to store the crop data for each image. This allows the user to come back to the application later and continue working on their images without losing their progress.
 
+## Cors Proxy
+SmartCrop uses a CORS proxy to fetch images from external websites. This is necessary because of the CORS policy that prevents websites from accessing resources on other domains. The CORS proxy can be found [Github](https://github.com/artanvrajolli/CorsNova) and it is hosted on vercel [Website](https://corsnova.vercel.app/).
 
 ## Credits
 
