@@ -2,8 +2,23 @@
 
 SmartCrop is a web application that uses Mobilenet to detect images and help users to crop images. It is built with Vite, Mobilenet, Tailwind CSS, Cropperjs and Aline.js.
 
+
+
+### Plans for the future ###
+- [ ] Use IndexedDB to store mobileNet data
+- [x] Use IndexedDB to store the crop data for each image
+- [x] Use web workers to offload the heavy computation of image detection to a separate thread
+- [x] Use a CORS proxy to fetch images from external websites
+- [x] Add recent images section
+- [x] Add thumbnails for recent images smaller size and faster loading
+- [x] Add a button to clear recent images
+- [ ] Add a button to clear recent image for a specific image
+
+ 
+
+
 ## Demo
-- [Website](https://artanvrajolli.github.io/smartcrop/)
+- [Website](https://artanvrajolli.github.io/SmartCrop/)
 
 ## Installation
 

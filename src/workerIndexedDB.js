@@ -164,6 +164,26 @@ class storeIndexedDB{
 
     }
 
+
+    removeAllImages(callback = ()=>{}){
+        if(!this.db){
+            this.queueJobs.push({
+                type: 'removeAllImages',
+                args: [callback]
+            });
+            return;
+        }
+        let transaction = this.db.transaction(['images'], 'readwrite');
+        let objectStore = transaction.objectStore('images');
+        let request = objectStore.clear();
+        request.onerror = function(event) {
+          console.log('Error getting data: ' + event.target.errorCode);
+        };
+        request.onsuccess = function(event) {
+          callback(null,'success');
+        };
+    }
+
 }
 
 const sIDB = new storeIndexedDB();
@@ -184,6 +204,17 @@ onmessage = function(event){
                 });
             });
         break;
+
+        case 'removeAllImages':
+            sIDB.removeAllImages((result,status)=>{
+                postMessage({
+                    type: 'removedAllImages',
+                    result,
+                    status,
+                });
+            });
+        break;
+        
         
         case 'getImages':
             const {offset,limit} = event?.data ?? {offset:0,limit:4};

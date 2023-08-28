@@ -47,10 +47,17 @@
         </div>
 
         <div class="border border-gray-700 rounded mt-4 py-1">
-                <div class="text-center">Recent Images</div>
+                <div class="flex justify-between px-2 items-center">
+                    <div class="me-5">Recent Local Images</div>
+                    <div @click="handleRemoveAllImages" class="flex text-sm text-red-500 items-center font-bold cursor-pointer">
+                        <div x-html="trashIcon" ></div>
+                        Clear All
+                    </div>
+                </div>
+                <hr/>
                 <ul>
                     <template x-if="recentImages.imagesList.length === 0">
-                        <li>No recent images found.</li>
+                        <li class="text-center">No recent images found.</li>
                     </template>
 
                     <template x-for="image in recentImages.imagesList" :key="image.id" >
