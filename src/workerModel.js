@@ -39,7 +39,6 @@ function process(e){
           }
           
           loadedModel.detect(e.data.image,80,0.4).then(predictions => {
-              console.log('detectObjects :::',predictions);
               postMessage({
                   type: 'detectObjects',
                   status: 'success',

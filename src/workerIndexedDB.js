@@ -6,7 +6,7 @@ class storeIndexedDB{
     }
 
     init(){
-        let request = indexedDB.open('indexStorage', 2);
+        let request = indexedDB.open('indexStorage', 3);
         request.onupgradeneeded = (event)=> {
             this.initIndexedDB('upgrade',event);
         };
@@ -184,6 +184,25 @@ class storeIndexedDB{
         };
     }
 
+    removeImage(id,callback = ()=>{}){
+        if(!this.db){
+            this.queueJobs.push({
+                type: 'removeImage',
+                args: [id,callback]
+            });
+            return;
+        }
+        let transaction = this.db.transaction(['images'], 'readwrite');
+        let objectStore = transaction.objectStore('images');
+        let request = objectStore.delete(id);
+        request.onerror = function(event) {
+          console.log('Error getting data: ' + event.target.errorCode);
+        };
+        request.onsuccess = function(event) {
+          callback(null,'success');
+        };
+    }
+
 }
 
 const sIDB = new storeIndexedDB();
@@ -214,8 +233,19 @@ onmessage = function(event){
                 });
             });
         break;
-        
-        
+
+        case 'removeImage':
+            {
+                const {id} = event?.data ?? {id:null};
+                sIDB.removeImage(id,(result,status)=>{
+                    postMessage({
+                        type: 'removedImage',
+                        result,
+                        status,
+                    });
+                });
+            }
+        break;
         case 'getImages':
             const {offset,limit} = event?.data ?? {offset:0,limit:4};
             sIDB.getImages(offset,limit,(result,status)=>{

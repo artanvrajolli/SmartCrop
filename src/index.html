@@ -48,7 +48,7 @@
 
         <div class="border border-gray-700 rounded mt-4 py-1">
                 <div class="flex justify-between px-2 items-center">
-                    <div class="me-5">Recent Local Images</div>
+                    <div class="me-5">From your local files</div>
                     <div @click="handleRemoveAllImages" class="flex text-sm text-red-500 items-center font-bold cursor-pointer">
                         <div x-html="trashIcon" ></div>
                         Clear All
@@ -61,10 +61,16 @@
                     </template>
 
                     <template x-for="image in recentImages.imagesList" :key="image.id" >
-                        <li @click="loadImageFromId(image.id)" class="flex items-center px-2 hover:bg-gray-200 cursor-pointer">
-                            <img class="w-20 h-20 object-contain" :src="URL.createObjectURL(image?.dataBlobThumbnail ?? image?.dataBlob)" />
-                            <div class="ms-1 text-sm">
-                                <div class="font-semibold" x-text="image.create_at_moment"></div>
+                        <li @click="loadImageFromId(image.id)" class="flex items-center px-2 hover:bg-gray-200 justify-between cursor-pointer">
+                            <div class="flex items-center">
+                                <img class="w-20 h-20 object-contain" :src="URL.createObjectURL(image?.dataBlobThumbnail ?? image?.dataBlob)" />
+                                <div class="ms-1 text-sm">
+                                    <div class="font-semibold" x-text="image.create_at_moment"></div>
+                                </div>
+                            </div>
+
+                            <div class="text-red-600 text-2xl" @click="event.stopPropagation();handleRemoveImage(image.id);">
+                                    <span x-html="removeIcon" ></span>
                             </div>
                         </li>
                     </template>
