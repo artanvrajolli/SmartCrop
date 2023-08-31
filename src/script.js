@@ -14,7 +14,7 @@ Alpine.data('cropperData', () => ({
     trashIcon: `<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M20 6a1 1 0 0 1 .117 1.993l-.117 .007h-.081l-.919 11a3 3 0 0 1 -2.824 2.995l-.176 .005h-8c-1.598 0 -2.904 -1.249 -2.992 -2.75l-.005 -.167l-.923 -11.083h-.08a1 1 0 0 1 -.117 -1.993l.117 -.007h16zm-9.489 5.14a1 1 0 0 0 -1.218 1.567l1.292 1.293l-1.292 1.293l-.083 .094a1 1 0 0 0 1.497 1.32l1.293 -1.292l1.293 1.292l.094 .083a1 1 0 0 0 1.32 -1.497l-1.292 -1.293l1.292 -1.293l.083 -.094a1 1 0 0 0 -1.497 -1.32l-1.293 1.292l-1.293 -1.292l-.094 -.083z" stroke-width="0" fill="currentColor"></path><path d="M14 2a2 2 0 0 1 2 2a1 1 0 0 1 -1.993 .117l-.007 -.117h-4l-.007 .117a1 1 0 0 1 -1.993 -.117a2 2 0 0 1 1.85 -1.995l.15 -.005h4z" stroke-width="0" fill="currentColor"></path></svg>`,
     uploadIcon: `<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 256 256" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M222,152v56a14,14,0,0,1-14,14H48a14,14,0,0,1-14-14V152a6,6,0,0,1,12,0v56a2,2,0,0,0,2,2H208a2,2,0,0,0,2-2V152a6,6,0,0,1,12,0ZM92.24,84.24,122,54.49V152a6,6,0,0,0,12,0V54.49l29.76,29.75a6,6,0,0,0,8.48-8.48l-40-40a6,6,0,0,0-8.48,0l-40,40a6,6,0,0,0,8.48,8.48Z"></path></svg>`,
     questionIcon:`<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"></path><path d="M623.6 316.7C593.6 290.4 554 276 512 276s-81.6 14.5-111.6 40.7C369.2 344 352 380.7 352 420v7.6c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V420c0-44.1 43.1-80 96-80s96 35.9 96 80c0 31.1-22 59.6-56.1 72.7-21.2 8.1-39.2 22.3-52.1 40.9-13.1 19-19.9 41.8-19.9 64.9V620c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8v-22.7a48.3 48.3 0 0 1 30.9-44.8c59-22.7 97.1-74.7 97.1-132.5.1-39.3-17.1-76-48.3-103.3zM472 732a40 40 0 1 0 80 0 40 40 0 1 0-80 0z"></path></svg>`,
-
+    cropIcon: `<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><g id="Crop"><path d="M5.624,6.623l-2.075,-0c-0.276,-0 -0.5,-0.224 -0.5,-0.5c-0,-0.276 0.224,-0.5 0.5,-0.5l2.075,-0l0,-2.073c0,-0.276 0.224,-0.5 0.5,-0.5c0.276,0 0.5,0.224 0.5,0.5l0,2.073l9.191,-0c1.414,-0 2.561,1.147 2.561,2.561l-0,9.193l2.075,0c0.276,0 0.5,0.224 0.5,0.5c0,0.276 -0.224,0.5 -0.5,0.5l-2.075,0l-0,2.073c-0,0.276 -0.224,0.5 -0.5,0.5c-0.276,-0 -0.5,-0.224 -0.5,-0.5l-0,-2.073l-9.191,0c-1.414,0 -2.561,-1.147 -2.561,-2.561l0,-9.193Zm11.752,10.754l-0,-9.193c-0,-0.862 -0.699,-1.561 -1.561,-1.561l-9.191,-0l0,9.193c0,0.862 0.699,1.561 1.561,1.561l9.191,0Z"></path></g></svg>`,
 
     cropper: null,
     _hasImage: false,
@@ -32,11 +32,19 @@ Alpine.data('cropperData', () => ({
     _resizeTimer: null,
     uploadInfo: {
         status: 'idle',
-        imgur: null
+        imgur: null,
+        errorMessage: null,
     },
     recentImages: {
         status: 'loading',
         imagesList: [],
+    },
+
+    cropedData: {
+        status: 'idle',
+        modal: 'hidden',
+        size: {width: 0, height: 0},
+        croppedBlob: null,
     },
 
     init: function () {
@@ -177,10 +185,18 @@ Alpine.data('cropperData', () => ({
     },
 
     handleCropButton: function () {
-
+        this.cropedData.status = 'loading';
         this.cropper.getCroppedCanvas().toBlob((blob) => {
-            this.removeImage();
-            this.setImage(URL.createObjectURL(blob));
+            this.cropedData.status = 'idle';
+            this.$refs.croppedImage.setAttribute('src', URL.createObjectURL(blob));
+            this.$refs.croppedImage.onload = () => {
+                this.cropedData.modal = 'show';
+                this.cropedData.size = {
+                    width: this.$refs.croppedImage.naturalWidth,
+                    height: this.$refs.croppedImage.naturalHeight,
+                };
+                this.cropedData.croppedBlob = blob;
+            };
         });
     },
     getImageData: function () {
@@ -219,30 +235,52 @@ Alpine.data('cropperData', () => ({
     uploadImageImgur: function () {
         this.uploadInfo.status = 'loading';
         this.uploadInfo.imgur = '';
-        this.cropper.getCroppedCanvas().toBlob((blob) => {
-            const formData = new FormData();
-            formData.append('image', blob, 'image.jpg');
-            fetch('https://corsnova.vercel.app/?url=https://api.imgur.com/3/image', {
-                method: 'POST',
-                headers: {
-                    'x-Authorization': `Client-ID 33f9077a32a9ea9`,
-                },
-                body: formData,
+        
+        const formData = new FormData();
+        
+        let newBlob = null;
+        if(this.cropedData.croppedBlob.size > 1024 * 1024 * 5) {
+            newBlob = new Blob([this.cropedData.croppedBlob], {type: 'image/gif'});
+        }else{
+            newBlob = this.cropedData.croppedBlob
+        }
+        console.log('newBlob', newBlob);
+        console.log('newBlob size:', (newBlob.size / (1024 * 1024)).toFixed(2) + ' MB');
+        formData.append('image', newBlob);
+        fetch('https://corsnova.vercel.app/?url=https://api.imgur.com/3/image', {
+            method: 'POST',
+            headers: {
+                'x-Authorization': `Client-ID 33f9077a32a9ea9`,
+            },
+            body: formData,
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('Image uploaded to Imgur:', data);
+                this.uploadInfo.imgur = data.data.link;
+                this.uploadInfo.status = 'idle';
             })
-                .then((response) => response.json())
-                .then((data) => {
-                    console.log('Image uploaded to Imgur:', data);
-                    this.uploadInfo.imgur = data.data.link;
-                    this.uploadInfo.status = 'idle';
-                })
-                .catch((error) => {
-                    console.error('Error uploading image to Imgur:', error);
-                    this.uploadInfo.status = 'idle';
-                    this.uploadInfo.imgur = '';
-                });
-        });
+            .catch((error) => {
+                console.error('Error uploading image to Imgur:', error);
+                this.uploadInfo.status = 'idle';
+                this.uploadInfo.imgur = '';
+                this.uploadInfo.errorMessage = error.message;
+            });
+       
     },
 
+    downloadCroppedImage: function () {
+        const currentDate = new Date().toISOString().slice(0, 10);
+        const currentTime = new Date().toLocaleTimeString().replace(/:/g, '-');
+        const url = URL.createObjectURL(this.cropedData.croppedBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `cropped-image-${currentDate} ${currentTime}.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    },
     copyToClipboard: function (event) {
         if (event.ctrlKey) {
             window.open(event.target.innerHTML, '_blank');

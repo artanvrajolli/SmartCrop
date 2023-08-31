@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://unpkg.com/cropperjs/dist/cropper.min.css">
 </head>
 
-<body x-data="cropperData" class="overflow-x-hidden">
+<body x-data="cropperData">
     <div class="flex flex-col justify-center items-center min-h-screen" x-show="!_hasImage">
         <div class="grid min-w-[300px]">
             <div class="flex items-center mb-2">
@@ -79,8 +79,52 @@
                     
                 </ul>
         </div>
-
     </div>
+
+    <div x-show="cropedData.modal === 'show'" class="fixed z-50 inset-0 overflow-y-auto  backdrop-blur">
+        <div class="flex items-center justify-center min-h-screen">
+        <div class="fixed inset-0 bg-gray-500 opacity-75"></div>
+        <div class="bg-white rounded-lg overflow-hidden shadow-xl">
+            <div class="relative">
+                
+                <div class="relative bg-white">
+                    <img class="max-w-full w-full min-w-[300px] border border-dashed max-h-[500px] object-contain" src="#" alt="cropped image" x-ref="croppedImage" />
+                    <div class="absolute font-medium bottom-0 right-0 backdrop-blur bg-white/75 px-1">
+                        <span x-text="cropedData.size.width"></span>
+                        <span class="font-regular">x</span>
+                        <span x-text="cropedData.size.height"></span>
+                    </div>
+                </div>
+                <hr/>
+                <div class="flex justify-between">
+                    <button @click="downloadCroppedImage" class="bg-blue-500 hover:bg-blue-700 text-white font-regular py-1 px-4 rounded disabled:opacity-50 disabled:pointer-events-none">
+                        Download
+                    </button>
+
+            
+
+                    <div class="flex items-center">
+                        <span
+                            class="[&.data-copied]:before:content-['COPIED'] before:bg-white/75 before:text-sm before:duration-2500 before:transition-opacity before:px-1 before:rounded before:opacity-0 hover:before:opacity-100 before:left-1/2 before:-translate-x-1/2 cursor-pointer before:absolute before:bottom-full  relative empty:before:content-[''] before:content-['COPY'] mx-2 hover:text-sky-500"
+                            @click="copyToClipboard(event)" x-text="uploadInfo.imgur"></span>
+                        <span class="mx-2 animate-spin" x-show="uploadInfo.status === 'loading'"
+                            x-html="spinnerIcon">Uploading...</span>
+                        <button x-bind:disabled="uploadInfo.status === 'loading'" @click="uploadImageImgur"
+                            class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded disabled:opacity-50 disabled:pointer-events-none">
+                            <span class="flex items-center" x-show="uploadInfo.status == 'idle'">
+                                <span class="text-xl" x-html="uploadIcon"></span>
+                                Imgur
+                            </span>
+                            <span class="animate-pulse" x-show="uploadInfo.status === 'loading'">. . .</span>
+                        </button>
+                    </div>
+                </div>
+                <div @click="cropedData.modal = 'hidden'" class="cursor-pointer absolute top-0 right-0 text-2xl text-red-600 z-50" x-html="removeIcon"></div>
+            </div>
+        </div>
+        </div>
+    </div>
+
     <div class="h-screen overflow-hidden flex flex-col" x-show="_hasImage">
         <div class="w-screen flex bg-gray-700 items-center">
             <div class="container mx-auto flex items-center z-10">
@@ -88,29 +132,19 @@
                     before:absolute before:bg-white before:inset-1.5     before:-z-10 before:rounded-full
                 " x-html="removeIcon" @click="removeImage(true)"></div>
                 <div class="ms-auto relative flex text-white items-center my-0.5">
-
                     <div class="bg-gray-700 text-white me-2">
                         <div class="container flex justify-between mx-auto">
                             <span></span>
                             <div class="flex items-center">
-                                <button @click="handleCropButton"
-                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded disabled:opacity-50 disabled:pointer-events-none">
-                                    Crop
-                                </button>
-                                <span
-                                    class="[&.data-copied]:before:content-['COPIED'] before:bg-white/75 before:text-sm before:duration-2500 before:transition-opacity before:px-1 before:rounded before:opacity-0 hover:before:opacity-100 before:left-1/2 before:-translate-x-1/2 cursor-pointer before:absolute before:top-full  relative empty:before:content-[''] before:content-['COPY'] mx-2 hover:text-sky-500"
-                                    @click="copyToClipboard(event)" x-text="uploadInfo.imgur"></span>
-                                <span class="mx-2 animate-spin" x-show="uploadInfo.status === 'loading'"
-                                    x-html="spinnerIcon">Uploading...</span>
-                                <button x-bind:disabled="uploadInfo.status === 'loading'" @click="uploadImageImgur"
-                                    class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded disabled:opacity-50 disabled:pointer-events-none">
-                                    <span x-show="uploadInfo.status == 'idle'">Imgur</span>
-                                    <span class="animate-pulse" x-show="uploadInfo.status === 'loading'">. . .</span>
+                                <button :disabled="cropedData.status != 'idle'" @click="handleCropButton"
+                                    class="flex items-center bg-blue-500 hover:bg-blue-700 text-white font-semibold  px-1 rounded-sm disabled:opacity-50 disabled:pointer-events-none">
+                                    <span x-show="cropedData.status == 'loading'" class="animate-spin me-1" x-html="spinnerIcon"></span>
+                                    <span x-html="cropIcon" class="me-1 text-2xl" x-show="cropedData.status == 'idle'"></span>
+                                    CROP
                                 </button>
                             </div>
                         </div>
                     </div>
-
 
                     <span @click="detectObjects.show = !detectObjects.show" class="cursor-pointer select-none">
                         <span x-text="detectObjects.objectsList.length"
@@ -118,8 +152,9 @@
                             x-show="detectObjects.status === 'success'">
                         </span>
                     </span>
-                    <span class="ms-1" x-show="detectObjects.status === 'loading'">Loading</span>
-                    <span x-show="detectObjects.status === 'failed'">[FAILED]</span>
+
+                    <span class="ms-1" x-show="detectObjects.status === 'loading'">Detecting.</span>
+                    <span x-show="detectObjects.status === 'failed'">[Error detected]</span>
                     <span x-show="detectObjects.show" class="absolute bottom-0 z-10 translate-y-full right-0">
                         <ul class="bg-white/75 text-black not:empty:p-4 rounded-sm">
                             <template x-if="detectObjects.status === 'success'">
@@ -144,7 +179,5 @@
         </div>
     </div>
 </body>
-<script type="module" src="./script.js"></script>
-<!-- window.Alpine.closestDataStack(document.body)[0].handleImageLoaded(); -->
-
+    <script type="module" src="./script.js"></script>
 </html>
