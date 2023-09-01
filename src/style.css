@@ -10,3 +10,18 @@ img {
     max-width: 100%;
 }
 
+
+.bg-custom-handler{
+    /* https://i.imgur.com/noZesTP.jpg */
+    background: radial-gradient(#00000000 0%, #ffffffdd 50%,#ffffff 70%), url('./transparent-bgcustom.png'), #ffffff;
+    background-size: 100%, 150px;
+}
+
+
+
+.dark .bg-custom-handler{
+    /* https://i.imgur.com/noZesTP.jpg */
+    background: radial-gradient(#00000000 0%, #181a1bdd 50%,#181a1b 70%), url('./transparent-bgcustom.png'), #181a1b;
+    background-size: 100%, 150px;
+}
+
