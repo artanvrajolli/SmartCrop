@@ -94,6 +94,13 @@ Alpine.data('cropperData', () => ({
                 this.removeImage();
             }
         });
+
+        document.addEventListener('paste',(e)=>{
+            let file = e.clipboardData.files[0];
+            if(file) {
+                this.setImage(URL.createObjectURL(file));
+            }
+        });
     },
     loadImageFromId: function (id) {
         this.workerIndexedDB.postMessage({
