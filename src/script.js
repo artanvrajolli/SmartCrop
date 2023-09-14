@@ -14,15 +14,20 @@ Alpine.data('cropperData', () => ({
     trashIcon: `<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M20 6a1 1 0 0 1 .117 1.993l-.117 .007h-.081l-.919 11a3 3 0 0 1 -2.824 2.995l-.176 .005h-8c-1.598 0 -2.904 -1.249 -2.992 -2.75l-.005 -.167l-.923 -11.083h-.08a1 1 0 0 1 -.117 -1.993l.117 -.007h16zm-9.489 5.14a1 1 0 0 0 -1.218 1.567l1.292 1.293l-1.292 1.293l-.083 .094a1 1 0 0 0 1.497 1.32l1.293 -1.292l1.293 1.292l.094 .083a1 1 0 0 0 1.32 -1.497l-1.292 -1.293l1.292 -1.293l.083 -.094a1 1 0 0 0 -1.497 -1.32l-1.293 1.292l-1.293 -1.292l-.094 -.083z" stroke-width="0" fill="currentColor"></path><path d="M14 2a2 2 0 0 1 2 2a1 1 0 0 1 -1.993 .117l-.007 -.117h-4l-.007 .117a1 1 0 0 1 -1.993 -.117a2 2 0 0 1 1.85 -1.995l.15 -.005h4z" stroke-width="0" fill="currentColor"></path></svg>`,
     uploadIcon: `<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 256 256" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M222,152v56a14,14,0,0,1-14,14H48a14,14,0,0,1-14-14V152a6,6,0,0,1,12,0v56a2,2,0,0,0,2,2H208a2,2,0,0,0,2-2V152a6,6,0,0,1,12,0ZM92.24,84.24,122,54.49V152a6,6,0,0,0,12,0V54.49l29.76,29.75a6,6,0,0,0,8.48-8.48l-40-40a6,6,0,0,0-8.48,0l-40,40a6,6,0,0,0,8.48,8.48Z"></path></svg>`,
     questionIcon:`<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"></path><path d="M623.6 316.7C593.6 290.4 554 276 512 276s-81.6 14.5-111.6 40.7C369.2 344 352 380.7 352 420v7.6c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V420c0-44.1 43.1-80 96-80s96 35.9 96 80c0 31.1-22 59.6-56.1 72.7-21.2 8.1-39.2 22.3-52.1 40.9-13.1 19-19.9 41.8-19.9 64.9V620c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8v-22.7a48.3 48.3 0 0 1 30.9-44.8c59-22.7 97.1-74.7 97.1-132.5.1-39.3-17.1-76-48.3-103.3zM472 732a40 40 0 1 0 80 0 40 40 0 1 0-80 0z"></path></svg>`,
-    cropIcon: `<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><g id="Crop"><path d="M5.624,6.623l-2.075,-0c-0.276,-0 -0.5,-0.224 -0.5,-0.5c-0,-0.276 0.224,-0.5 0.5,-0.5l2.075,-0l0,-2.073c0,-0.276 0.224,-0.5 0.5,-0.5c0.276,0 0.5,0.224 0.5,0.5l0,2.073l9.191,-0c1.414,-0 2.561,1.147 2.561,2.561l-0,9.193l2.075,0c0.276,0 0.5,0.224 0.5,0.5c0,0.276 -0.224,0.5 -0.5,0.5l-2.075,0l-0,2.073c-0,0.276 -0.224,0.5 -0.5,0.5c-0.276,-0 -0.5,-0.224 -0.5,-0.5l-0,-2.073l-9.191,0c-1.414,0 -2.561,-1.147 -2.561,-2.561l0,-9.193Zm11.752,10.754l-0,-9.193c-0,-0.862 -0.699,-1.561 -1.561,-1.561l-9.191,-0l0,9.193c0,0.862 0.699,1.561 1.561,1.561l9.191,0Z"></path></g></svg>`,
+    cropIcon: `<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M144 48v272a48 48 0 0048 48h272"></path><path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M368 304V192a48 48 0 00-48-48H208m160 224v96M144 144H48"></path></svg>`,
     moonIcon: `<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"></path><path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"></path></svg>`,
     sunIcon: `<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"></path></svg>`,
+    externalLinkIcon: `<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>`,
+    codeIcon: `<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 640 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M278.9 511.5l-61-17.7c-6.4-1.8-10-8.5-8.2-14.9L346.2 8.7c1.8-6.4 8.5-10 14.9-8.2l61 17.7c6.4 1.8 10 8.5 8.2 14.9L293.8 503.3c-1.9 6.4-8.5 10.1-14.9 8.2zm-114-112.2l43.5-46.4c4.6-4.9 4.3-12.7-.8-17.2L117 256l90.6-79.7c5.1-4.5 5.5-12.3.8-17.2l-43.5-46.4c-4.5-4.8-12.1-5.1-17-.5L3.8 247.2c-5.1 4.7-5.1 12.8 0 17.5l144.1 135.1c4.9 4.6 12.5 4.4 17-.5zm327.2.6l144.1-135.1c5.1-4.7 5.1-12.8 0-17.5L492.1 112.1c-4.8-4.5-12.4-4.3-17 .5L431.6 159c-4.6 4.9-4.3 12.7.8 17.2L523 256l-90.6 79.7c-5.1 4.5-5.5 12.3-.8 17.2l43.5 46.4c4.5 4.9 12.1 5.1 17 .6z"></path></svg>`,
+
+
 
     cropper: null,
     _hasImage: false,
     _inputImage: {
         status: 'idle',
         error: null,
+        id: null,
     },
     detectObjects: {
         status: 'loading',
@@ -42,13 +47,59 @@ Alpine.data('cropperData', () => ({
         imagesList: [],
     },
 
-    cropedData: {
+    croppedData: {
         status: 'idle',
         modal: 'hidden',
         size: {width: 0, height: 0},
         croppedBlob: null,
     },
     theme: 'light',
+    technologies: {
+        show: false,
+        activeIndex:null,
+        header: {
+            title: 'Technologies',
+        },
+        list: [{
+            type: "header",
+            title: "Technologies",
+        },{
+            name: 'Tensorflow',
+            image: 'tensorflow.svg',
+            url: 'https://www.tensorflow.org/',
+            usedFor: 'has been used for object detection.',
+        },{
+            name: 'CropperJS',
+            image: 'cropperjs.svg',
+            url: 'https://fengyuanchen.github.io/cropperjs/',
+            usedFor: 'has been used for cropping images.',
+        },{
+            name: 'Vite',
+            image: 'vitejs.svg',
+            url: 'https://vitejs.dev/',
+            usedFor: 'has been used for bundling the app.',
+        },{
+            name: 'AlpineJS',
+            image: 'alpinejs.svg',
+            url: 'https://alpinejs.dev/',
+            usedFor: 'has been used for the UI and logic of the app.',
+        },{
+            name: 'TailwindCSS',
+            image: 'tailwindcss.svg',
+            url: 'https://tailwindcss.com/',
+            usedFor: 'has been used for styling the app.',
+        },{
+            name: 'Web Workers',
+            image: 'webworker.svg',
+            url: 'https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API',
+            usedFor: 'has been used for running the object detection model in a separate thread.',
+        },{
+            name: 'IndexedDB',
+            image: 'indexeddb.svg',
+            url: 'https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API',
+            usedFor: 'has been used for storing the images in the browser locally.',
+        }
+    ]},
     init: function () {
         this.workerIndexedDB.onmessage = this.handleWorkerIndexedDB.bind(this);
         // this.workerIndexedDB.postMessage({type:'ping'});
@@ -129,6 +180,7 @@ Alpine.data('cropperData', () => ({
         this.$refs.imageRef.onload = this.handleImageLoaded.bind(this);
         this.$refs.imageRef.onerror = this.handleImageError.bind(this);
         this._inputImage.status = 'loading';
+        this._inputImage.id = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
     },
     removeImage: function (pushHistory = false, options = {}) {
         if (pushHistory) {
@@ -138,16 +190,15 @@ Alpine.data('cropperData', () => ({
         }
         this.$refs.imageRef.removeAttribute('src');
 
-
         !options?.hasImageReset && (this._hasImage = false);
 
-
-        this.detectObjects.status = null;
+        this.detectObjects.status = 'loading';
         this.detectObjects.objectsList = [];
         this.uploadInfo.status = 'idle';
         this.uploadInfo.imgur = null;
         this.$refs.inputUrl.value = '';
         this._inputImage.status = 'idle';
+        this._inputImage.id = null;
 
         this.workerIndexedDB.postMessage({
             type: 'getImages', offset: 0, limit: 5
@@ -168,6 +219,7 @@ Alpine.data('cropperData', () => ({
                 this.workerModel.postMessage({
                     type: 'detectObjects',
                     image: this.getImageData(),
+                    imageId: this._inputImage.id,
                 });
             }
         });
@@ -207,17 +259,17 @@ Alpine.data('cropperData', () => ({
     },
 
     handleCropButton: function () {
-        this.cropedData.status = 'loading';
+        this.croppedData.status = 'loading';
         this.cropper.getCroppedCanvas().toBlob((blob) => {
-            this.cropedData.status = 'idle';
+            this.croppedData.status = 'idle';
             this.$refs.croppedImage.setAttribute('src', URL.createObjectURL(blob));
             this.$refs.croppedImage.onload = () => {
-                this.cropedData.modal = 'show';
-                this.cropedData.size = {
+                this.croppedData.modal = 'show';
+                this.croppedData.size = {
                     width: this.$refs.croppedImage.naturalWidth,
                     height: this.$refs.croppedImage.naturalHeight,
                 };
-                this.cropedData.croppedBlob = blob;
+                this.croppedData.croppedBlob = blob;
             };
         });
     },
@@ -261,10 +313,10 @@ Alpine.data('cropperData', () => ({
         const formData = new FormData();
         
         let newBlob = null;
-        if(this.cropedData.croppedBlob.size > 1024 * 1024 * 5) {
-            newBlob = new Blob([this.cropedData.croppedBlob], {type: 'image/gif'});
+        if(this.croppedData.croppedBlob.size > 1024 * 1024 * 5) {
+            newBlob = new Blob([this.croppedData.croppedBlob], {type: 'image/gif'});
         }else{
-            newBlob = this.cropedData.croppedBlob
+            newBlob = this.croppedData.croppedBlob
         }
         console.log('newBlob', newBlob);
         console.log('newBlob size:', (newBlob.size / (1024 * 1024)).toFixed(2) + ' MB');
@@ -294,7 +346,7 @@ Alpine.data('cropperData', () => ({
     downloadCroppedImage: function () {
         const currentDate = new Date().toISOString().slice(0, 10);
         const currentTime = new Date().toLocaleTimeString().replace(/:/g, '-');
-        const url = URL.createObjectURL(this.cropedData.croppedBlob);
+        const url = URL.createObjectURL(this.croppedData.croppedBlob);
         const link = document.createElement('a');
         link.href = url;
         link.download = `cropped-image-${currentDate} ${currentTime}.png`;
@@ -324,6 +376,10 @@ Alpine.data('cropperData', () => ({
                 console.log('---[!!  Worker MODEL Alive   !!]---', e.data);
                 break;
             case 'detectObjects':
+                if(this._inputImage.id !== e.data.imageId) {
+                    console.log('ignore old detectObjects result');
+                    break;
+                }
                 let { status } = e.data;
                 this.detectObjects.status = status;
                 this.detectObjects.objectsList = e?.data?.predictions ?? [];

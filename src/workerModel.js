@@ -5,9 +5,7 @@ import 'https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd';
 
 var loadedModel = null;
 
-cocoSsd.load(
-    {base:"mobilenet_v2"}
-).then(model => {
+cocoSsd.load({base:"mobilenet_v2"}).then(model => {
     loadedModel = model;
     if(eventQueue.length > 0){
         process();
@@ -25,14 +23,13 @@ function process(e){
     if(!e && eventQueue.length){
         e = eventQueue.shift();
     }
-
-
     const {type} = e?.data ?? {type:'none'};
     switch(type){
       case 'ping':
           console.log('---[Worker MODEL Alive]---');
       break;
       case 'detectObjects':
+          eventQueue = eventQueue.filter(e => e.data.type !== 'detectObjects');
           if(!loadedModel){
                 eventQueue.push(e);
                 return;
@@ -43,8 +40,10 @@ function process(e){
                   type: 'detectObjects',
                   status: 'success',
                   predictions,
+                  imageId: e.data.imageId,
               });
           });
+
       break;
       default:
           console.log('Unknown message type', type);

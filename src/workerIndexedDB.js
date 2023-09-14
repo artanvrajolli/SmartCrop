@@ -103,7 +103,6 @@ class storeIndexedDB{
     }
 
     getImageId(getID,callback = ()=>{}){
-        // console.log('getID:',getID);
         if(!this.db){
             this.queueJobs.push({
                 type: 'getImageId',
@@ -111,6 +110,7 @@ class storeIndexedDB{
             });
             return;
         }
+
         let transaction = this.db.transaction(['images'], 'readonly');
         let objectStore = transaction.objectStore('images');
         let request = objectStore.get(parseInt(getID));
@@ -205,13 +205,13 @@ class storeIndexedDB{
 
 }
 
+
+
 const sIDB = new storeIndexedDB();
 
 
 onmessage = function(event){
-    //console.log('message received to workerIndexedDB.js',event);
     const {type}   = event?.data ?? {type:'none'};
-
     switch(type){
         case 'ping':
             console.log('---[Worker IndexedDB Alive]---');

@@ -14,59 +14,41 @@
 
     <div class="flex flex-col justify-center items-center min-h-screen bg-custom-handler" x-show="!_hasImage">
         <h1 class="text-4xl font-bold text-gray-900 relative pb-2">
-            <h1 class="text-4xl pb-2 font-bold text-center text-gray-800 dark:text-white">
-                <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-yellow-300 dark:to-yellow-500 animate-pulse">S</span>
-                <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-yellow-300 dark:to-yellow-500 animate-pulse animation-delay-100">m</span>
-                <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-yellow-300 dark:to-yellow-500 animate-pulse animation-delay-200">a</span>
-                <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-yellow-300 dark:to-yellow-500 animate-pulse animation-delay-300">r</span>
-                <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-yellow-300 dark:to-yellow-500 animate-pulse animation-delay-400">t</span>
-                <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-yellow-300 dark:to-yellow-500 animate-pulse animation-delay-500">C</span>
-                <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-yellow-300 dark:to-yellow-500 animate-pulse animation-delay-600">r</span>
-                <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-yellow-300 dark:to-yellow-500 animate-pulse animation-delay-700">o</span>
-                <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-yellow-300 dark:to-yellow-500 animate-pulse animation-delay-800">p</span>
+            <h1 class="text-4xl pb-2 font-bold text-center text-gray-800 dark:text-stone-300">
+                <template x-for="item,index in 'SmartCrop'" x-key="index">
+                    <span x-html="item" class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-yellow-300 dark:to-yellow-500 animate-pulse" :style="`animation-delay: ${index * 0.2}s`">p</span>
+                </template>
             </h1>
-
-            <div class="backdrop-blur dark:bg-gray-800 p-1 border rounded">
-
+            <div class="backdrop-blur p-2 rounded">
                 <div class="grid min-w-[300px]">
-                    <div class="flex dark:text-white items-center mb-2">
+                    <div class="flex dark:text-stone-300 items-center mb-2">
                         <span x-html="computerIcon" class="me-1 text-2xl"></span>
                         <span>Upload image from your computer</span>
-                        <span
-                            class="text-xl before:hidden hover:before:block mx-1 relative before:absolute before:text-sm before:w-40 before:border before:bottom-full dark:before:text-black before:bg-white before:text-center before:rounded-md before:-translate-x-1/2 before:content-[attr(data-hover-text)]"
+                        <span class="text-xl before:hidden hover:before:block mx-1 relative before:absolute before:text-sm before:w-40 before:border before:bottom-full dark:before:text-black before:bg-white before:text-center before:rounded-md before:-translate-x-1/2 before:content-[attr(data-hover-text)]"
                             data-hover-text="Your files are stored only in your local machine"
                             x-html="questionIcon"></span>
                     </div>
                     <input hidden type="file" id="file" name="file" accept="image/*" @change="onFileChange">
                     <label for="file"
-                        class="dark:text-white text-center flex items-center justify-center cursor-pointer border-2 bg-gray-300 dark:bg-gray-700 rounded border-dashed border-gray-400 p-5">
+                        class="dark:text-stone-300 text-center flex items-center justify-center cursor-pointer border-2 bg-gray-300 dark:bg-gray-700 rounded border-dashed border-gray-400 p-5">
                         <span class="text-2xl me-2" x-html="uploadIcon"></span>
                         <span>Select Image</span>
                     </label>
-                    <div class="mt-3 flex items-center dark:text-white">
+                    <div class="mt-3 flex items-center dark:text-stone-300">
                         <span x-html="linkIcon" class="me-1 text-2xl"></span>
                         <span>Or paste image URL</span>
                     </div>
                     <input x-ref="inputUrl" placeholder="E.g: http://example.com/image.png" type="text"
                         @change="setImage(event.target.value,true);"
-                        class="form-input mt-2 border border-sm bg-gray-300 dark:bg-gray-700 px-2 py-1"
+                        class="form-input dark:text-stone-300 mt-2 border border-sm bg-gray-300 dark:bg-gray-700 px-2 py-1"
                         pattern="https?://.+">
                 </div>
 
-                <div x-show="_inputImage.status === 'loading'" class="mt-2 flex justify-center items-center">
+                <div x-show="_inputImage.status === 'loading'" class="mt-2 dark:text-stone-300 flex justify-center items-center">
                     <div class="animate-spin me-2 inline-flex">
                         <span x-html="spinnerIcon"></span>
                     </div>
-                    <span class="dark:text-white">Loading</span>
+                    <span>Loading</span>
                 </div>
                 <div x-show="_inputImage.status === 'error'"
                     class="mt-2 bg-red-100 dark:bg-red-800 border border-red-400 text-red-700 dark:text-red-200 ps-4 pe-10 py-3 rounded relative"
@@ -81,24 +63,23 @@
                 </div>
 
                 <div x-show="recentImages.imagesList.length > 0"
-                    class="py-1 dark:border-gray-400 rounded mt-4 py-1 min-w-[300px]">
-                    <div class="flex justify-between px-2 items-center">
-                        <div class="me-5 dark:text-white">From your local files</div>
+                    class="dark:border-gray-700 rounded mt-4 py-1 min-w-[300px]">
+                    <div class="flex justify-between ps-2 items-center">
+                        <div class="me-5 dark:text-stone-300">From your local files</div>
                         <div @click="handleRemoveAllImages"
-                            class="flex text-sm text-red-500 dark:text-red-400 items-center font-semibold cursor-pointer">
+                            class="flex text-sm px-1 transition-all py-1 rounded hover:text-stone-100 hover:bg-red-500 text-red-500 dark:text-red-400 items-center font-semibold cursor-pointer">
+                            <span>Clear</span>
                             <div class="text-xl" x-html="trashIcon"></div>
-                            <span>Clear All</span>
                         </div>
                     </div>
-                    <hr class="dark:border-gray-400" />
                     <ul>
                         <template x-if="recentImages.imagesList.length === 0">
                             <li class="text-center">No recent images found.</li>
                         </template>
 
                         <template x-for="image in recentImages.imagesList" :key="image.id">
-                            <li  @click="loadImageFromId(image.id)"
-                                class="flex dark:text-white items-center p-1 hover:bg-gray-200 dark:hover:bg-gray-700 justify-between cursor-pointer">
+                            <li   @click="loadImageFromId(image.id)"
+                                class="flex even:bg-black/5 odd:bg-white/5  dark:text-stone-300 items-stretch hover:bg-gray-200 dark:hover:bg-gray-700 justify-between cursor-pointer">
                                 <div class="flex items-center">
                                     <img class="w-[50px] h-[50px] object-contain"
                                         :src="URL.createObjectURL(image?.dataBlobThumbnail ?? image?.dataBlob)" />
@@ -106,10 +87,10 @@
                                         <div class="font-semibold" x-text="image.create_at_moment"></div>
                                     </div>
                                 </div>
-
-                                <div class="text-red-600 text-2xl"
+                               
+                                <div class="border-s-2 dark:border-s-slate-800 text-red-500 hover:bg-red-500 hover:text-white flex items-center"
                                     @click="event.stopPropagation();handleRemoveImage(image.id);">
-                                    <span class="relative isolate before:-z-10 before:absolute before:content-[''] before:bg-white before:inset-1.5 before:rounded-full" x-html="removeIcon"></span>
+                                    <span class="text-2xl px-1" x-html="removeIcon"></span>
                                 </div>
                             </li>
                         </template>
@@ -119,32 +100,72 @@
 
             </div>
 
-            <div class="absolute bottom-5 backdrop-blur-sm bg-white dark:bg-gray-700 rounded-full right-2 z-10">
-                <a class="flex justify-center text-xl" >
-                    <span @click="theme = theme == 'dark' ? 'light' : 'dark' " class="inline-flex border rounded-full px-1.5 py-1 cursor-pointer">
-                        <span x-html="moonIcon"  class="text-slate-800  rounded-full" >
-                            
+            <div class="flex flex-col items-center absolute bottom-5 z-10">
+                <div class=" backdrop-blur-sm bg-white dark:bg-gray-700 rounded-full ">
+                    <a class="flex justify-center text-xl" >
+                        <span @click="theme = theme == 'dark' ? 'light' : 'dark' " class="inline-flex border-zinc-300 dark:border-stone-500 border rounded-full px-1.5 py-1 cursor-pointer">
+                            <span x-html="moonIcon"  class="text-slate-800  rounded-full" ></span>
+                            <span x-html="sunIcon" class="text-yellow-400  rounded-full" ></span>
                         </span>
-                        <span x-html="sunIcon" class="text-yellow-400  rounded-full" >
-                            
-                        </span>
-                    </span>
-                </a>
+                    </a>
+                </div>
+                <div class="flex justify-center items-center flex-col backdrop-blur-sm dark:text-stone-300">
+                    <div class="text-center">
+                        <span >DEVELOPED BY</span>
+                        <a target="_blank" class="font-semibold group hover:text-sky-500  inline-flex items-center" href="https://github.com/artanvrajolli">
+                            <span>Artan Vrajolli</span>
+                            <span class="ms-1  transition-all texl-2xl" x-html="externalLinkIcon"></span>
+                        </a>
+                    </div>
+                    <div class="flex">
+                        <span class="font-normal me-1"> USED </span>
+                        <div @click="technologies.show = !technologies.show" class="cursor-pointer hover:text-sky-500  flex items-center font-semibold">
+                            <span>Technologies</span>
+                            <span class="mx-1  transition-all texl-2xl" x-html="codeIcon"></span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
     </div>
-    <div x-show="cropedData.modal === 'show'" class="fixed z-50 inset-0 overflow-y-auto  backdrop-blur">
+
+
+    <!-- start line Modal for Technologies used -->
+    <div x-show="technologies.show" class="fixed flex items-center justify-center inset-0 ">
+        <div @click="technologies.show = false" class="backdrop-blur-sm absolute h-full w-full"></div>
+        <div class="relative z-50 p-2 dark:bg-slate-700 dark:text-stone-300 bg-white border shadow-md rounded">
+            <div class="absolute -top-3 -right-3">
+                <span @click="technologies.show = false" class="text-rose-500 relative before:absolute before:inset-2 before:bg-white isolate before:-z-10 cursor-pointer text-3xl " x-html="removeIcon"></span>
+            </div>
+            <div class="text-center font-semibold" x-text="technologies.header.title"></div>
+            <ul>
+                <template x-for="t,index in technologies.list">
+                    <li @click="window.open(t.url, '_blank')" x-bind:data-info="t.usedFor" x-show="!t?.type" class="cursor-pointer group before:text-center before:hidden hover:before:block before:content-[attr(data-info)] before:text-sm before:left-0 before:right-0 before:bg-white before:mt-1 before:border before:top-full before:absolute before:p-1 dark:before:bg-slate-700 before:rounded-sm flex items-center">
+                        <img :src="`/image/${t.image}`" :alt="t.name" class=" w-[35px] h-[35px] me-1 object-contain" />
+                        <div x-text="t.name"></div>
+                        <div class="invisible mx-1 transition-opacity group-hover:visible" x-html="externalLinkIcon"></div>
+                        <div class="cursor-help  ms-auto px-1 text-xl" x-html="questionIcon"></div>
+                    </li>
+                </template>
+            </ul>
+        </div>
+    </div>
+    <!-- end line Modal for Technologies used -->
+
+
+
+    <div x-show="croppedData.modal === 'show'" class="fixed z-50 inset-0 overflow-y-auto  backdrop-blur">
         <div class="flex items-center justify-center min-h-screen">
             <div class="fixed inset-0 bg-gray-500 opacity-75"></div>
             <div class="bg-white rounded-lg overflow-hidden shadow-xl">
                 <div class="relative">
-
                     <div class="relative bg-white">
                         <img class="max-w-full w-full min-w-[300px] border border-dashed max-h-[500px] object-contain"
                             src="#" alt="cropped image" x-ref="croppedImage" />
                         <div class="absolute font-medium bottom-0 right-0 backdrop-blur bg-white/75 px-1">
-                            <span x-text="cropedData.size.width"></span>
+                            <span x-text="croppedData.size.width"></span>
                             <span class="font-regular">x</span>
-                            <span x-text="cropedData.size.height"></span>
+                            <span x-text="croppedData.size.height"></span>
                         </div>
                     </div>
                     <hr />
@@ -153,8 +174,6 @@
                             class="bg-blue-500 hover:bg-blue-700 text-white font-regular py-1 px-4 rounded disabled:opacity-50 disabled:pointer-events-none">
                             Download
                         </button>
-
-
 
                         <div class="flex items-center">
                             <span
@@ -172,7 +191,7 @@
                             </button>
                         </div>
                     </div>
-                    <div @click="cropedData.modal = 'hidden'"
+                    <div @click="croppedData.modal = 'hidden'"
                         class="cursor-pointer absolute top-0 right-0 text-2xl text-red-600 z-50" x-html="removeIcon">
                     </div>
                 </div>
@@ -191,12 +210,12 @@
                         <div class="container flex justify-between mx-auto">
                             <span></span>
                             <div class="flex items-center">
-                                <button :disabled="cropedData.status != 'idle'" @click="handleCropButton"
+                                <button :disabled="croppedData.status != 'idle'" @click="handleCropButton"
                                     class="flex items-center bg-blue-500 hover:bg-blue-700 text-white font-semibold  px-1 rounded-sm disabled:opacity-50 disabled:pointer-events-none">
-                                    <span x-show="cropedData.status == 'loading'" class="animate-spin me-1"
+                                    <span x-show="croppedData.status == 'loading'" class="animate-spin me-1"
                                         x-html="spinnerIcon"></span>
                                     <span x-html="cropIcon" class="me-1 text-2xl"
-                                        x-show="cropedData.status == 'idle'"></span>
+                                        x-show="croppedData.status == 'idle'"></span>
                                     CROP
                                 </button>
                             </div>
@@ -231,7 +250,7 @@
                 </div>
             </div>
         </div>
-        <div class="h-[50%] flex-grow">
+        <div class="h-[50%] [&>*]:h-full [&.cropper-container]:h-full w-full flex-grow">
             <img x-ref="imageRef" x-on:load="handleImageLoaded(event);" crossorigin="anonymous" id="image">
         </div>
     </div>

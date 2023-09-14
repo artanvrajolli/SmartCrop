@@ -7,4 +7,5 @@ module.exports = {
       outDir: '../dist',
     },
     base: '',
+    publicDir: './public',
 };
