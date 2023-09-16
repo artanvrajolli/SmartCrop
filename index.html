@@ -141,7 +141,7 @@
             <ul>
                 <template x-for="t,index in technologies.list">
                     <li @click="window.open(t.url, '_blank')" x-bind:data-info="t.usedFor" x-show="!t?.type" class="cursor-pointer group before:text-center before:hidden hover:before:block before:content-[attr(data-info)] before:text-sm before:left-0 before:right-0 before:bg-white before:mt-1 before:border before:top-full before:absolute before:p-1 dark:before:bg-slate-700 before:rounded-sm flex items-center">
-                        <img :src="`/image/${t.image}`" :alt="t.name" class=" w-[35px] h-[35px] me-1 object-contain" />
+                        <img :src="`./image/${t.image}`" :alt="t.name" class=" w-[35px] h-[35px] me-1 object-contain" />
                         <div x-text="t.name"></div>
                         <div class="invisible mx-1 transition-opacity group-hover:visible" x-html="externalLinkIcon"></div>
                         <div class="cursor-help  ms-auto px-1 text-xl" x-html="questionIcon"></div>
