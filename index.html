@@ -171,7 +171,7 @@
                     <hr />
                     <div class="flex justify-between">
                         <button @click="downloadCroppedImage"
-                            class="bg-blue-500 hover:bg-blue-700 text-white font-regular py-1 px-4 rounded disabled:opacity-50 disabled:pointer-events-none">
+                            class="bg-green-500 hover:bg-green-700 text-white font-regular py-1 px-4 rounded disabled:opacity-50 disabled:pointer-events-none">
                             Download
                         </button>
 
@@ -184,7 +184,7 @@
                             <button x-bind:disabled="uploadInfo.status === 'loading'" @click="uploadImageImgur"
                                 class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded disabled:opacity-50 disabled:pointer-events-none">
                                 <span class="flex items-center" x-show="uploadInfo.status == 'idle'">
-                                    <span class="text-xl" x-html="uploadIcon"></span>
+                                    <span class="text-xl me-1" x-html="uploadIcon"></span>
                                     Imgur
                                 </span>
                                 <span class="animate-pulse" x-show="uploadInfo.status === 'loading'">. . .</span>
@@ -251,7 +251,7 @@
             </div>
         </div>
         <div class="h-[50%] [&>*]:h-full [&.cropper-container]:h-full w-full flex-grow">
-            <img x-ref="imageRef" x-on:load="handleImageLoaded(event);" crossorigin="anonymous" id="image">
+            <img class="block max-w-full" x-ref="imageRef" x-on:load="handleImageLoaded(event);" crossorigin="anonymous" id="image">
         </div>
     </div>
 </body>

@@ -152,6 +152,25 @@ Alpine.data('cropperData', () => ({
                 this.setImage(URL.createObjectURL(file));
             }
         });
+
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'Escape' && this.croppedData.modal === 'show') {
+                this.croppedData.modal = 'hidden';
+                return;
+            }
+            if (e.key === 'Escape' && this._hasImage === true) {
+                this.removeImage(true);
+                return;
+            }
+            if (e.key === 'Enter' && this._hasImage === true) {
+                this.handleCropButton();
+                return;
+            }
+
+            
+        });
+
+
     },
     loadImageFromId: function (id) {
         this.workerIndexedDB.postMessage({
@@ -205,16 +224,19 @@ Alpine.data('cropperData', () => ({
         });
 
     },
-    initCropper: function () {
+    initCropper: async function () {
         if (this.cropper) {
             this.cropper.replace(this.$refs.imageRef.src);
             return;
         }
+        await new Promise(resolve => setTimeout(resolve, 100));
         this.cropper = new Cropper(this.$refs.imageRef, {
             zoomable: false,
             autoCropArea: 1,
             guides: false,
             center: true,
+            minContainerWidth: this.$refs.imageRef.offsetWidth || window.innerWidth,
+            minContainerHeight: this.$refs.imageRef.offsetHeight || window.innerHeight,
             ready: () => {
                 this.workerModel.postMessage({
                     type: 'detectObjects',
