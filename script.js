@@ -104,7 +104,7 @@ Alpine.data('cropperData', () => ({
         this.workerIndexedDB.onmessage = this.handleWorkerIndexedDB.bind(this);
         // this.workerIndexedDB.postMessage({type:'ping'});
         this.workerIndexedDB.postMessage({
-            type: 'getImages', offset: 0, limit: 5
+            type: 'getImages', offset: 0, limit: 500
         });
 
         this.workerModel.onmessage = this.handleWorkerModel.bind(this);
@@ -152,6 +152,20 @@ Alpine.data('cropperData', () => ({
                 this.setImage(URL.createObjectURL(file));
             }
         });
+
+        document.addEventListener('drop', (event) => {
+            event.preventDefault();
+            let files = event.dataTransfer.files;
+            if (!files.length) return;
+            this.setImage(URL.createObjectURL(files[0]));
+        });
+
+        document.addEventListener('dragover', (event) => {
+            event.preventDefault();
+        });
+
+
+
 
         document.addEventListener('keydown', (e) => {
             if(e.key === 'Escape' && this.croppedData.modal === 'show') {
@@ -220,7 +234,7 @@ Alpine.data('cropperData', () => ({
         this._inputImage.id = null;
 
         this.workerIndexedDB.postMessage({
-            type: 'getImages', offset: 0, limit: 5
+            type: 'getImages', offset: 0, limit: 500
         });
 
     },
@@ -257,7 +271,7 @@ Alpine.data('cropperData', () => ({
             type: 'removeAllImages',
         });
         this.workerIndexedDB.postMessage({
-            type: 'getImages', offset: 0, limit: 5
+            type: 'getImages', offset: 0, limit: 500
         });
     },
     handleImageError: function () {
@@ -432,7 +446,7 @@ Alpine.data('cropperData', () => ({
             case 'removedImage':
                 {
                     this.workerIndexedDB.postMessage({
-                        type: 'getImages', offset: 0, limit: 5
+                        type: 'getImages', offset: 0, limit: 500
                     });
                 }
                 break;
