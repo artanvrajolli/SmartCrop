@@ -1,5 +1,5 @@
 
-import * as tf from 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.9.0/dist/tf.min.js';
+import 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.9.0/dist/tf.min.js';
 import 'https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd';
 
 

@@ -11,7 +11,6 @@
 </head>
 
 <body x-data="cropperData">
-
     <div class="flex flex-col justify-center items-center min-h-screen bg-custom-handler" x-show="!_hasImage">
         <h1 class="text-4xl font-bold text-gray-900 relative pb-2">
             <h1 class="text-4xl pb-2 font-bold text-center text-gray-800 dark:text-stone-300">
@@ -64,7 +63,7 @@
 
                 <div x-show="recentImages.imagesList.length > 0"
                     class="dark:border-gray-700 rounded mt-4 py-1 min-w-[300px]">
-                    <div class="flex justify-between ps-2 items-center">
+                    <div class="flex justify-between items-center">
                         <div class="me-5 dark:text-stone-300">From your local files</div>
                         <div @click="handleRemoveAllImages"
                             class="flex text-sm px-1 transition-all py-1 rounded hover:text-stone-100 hover:bg-red-500 text-red-500 dark:text-red-400 items-center font-semibold cursor-pointer">
@@ -78,8 +77,8 @@
                         </template>
 
                         <template x-for="image in recentImages.imagesList" :key="image.id">
-                            <li   @click="loadImageFromId(image.id)"
-                                class="flex even:bg-black/5 odd:bg-white/5  dark:text-stone-300 items-stretch hover:bg-gray-200 dark:hover:bg-gray-700 justify-between cursor-pointer">
+                            <li @click="loadImageFromId(image.id)"
+                                class="flex even:bg-black/5 odd:bg-white/5 mb-0.5 dark:text-stone-300 items-stretch hover:bg-gray-200 dark:hover:bg-gray-700 justify-between cursor-pointer">
                                 <div class="flex items-center">
                                     <img class="w-[50px] h-[50px] object-contain"
                                         :src="URL.createObjectURL(image?.dataBlobThumbnail ?? image?.dataBlob)" />
@@ -87,8 +86,7 @@
                                         <div class="font-semibold" x-text="image.create_at_moment"></div>
                                     </div>
                                 </div>
-                               
-                                <div class="border-s-2 dark:border-s-slate-800 text-red-500 hover:bg-red-500 hover:text-white flex items-center"
+                                <div class="border-s-2 rounded dark:border-s-slate-800 text-red-500 hover:bg-red-500 hover:text-white flex items-center"
                                     @click="event.stopPropagation();handleRemoveImage(image.id);">
                                     <span class="text-2xl px-1" x-html="removeIcon"></span>
                                 </div>
@@ -109,20 +107,20 @@
                         </span>
                     </a>
                 </div>
-                <div class="flex justify-center items-center flex-col backdrop-blur-sm dark:text-stone-300">
+                <div class="flex justify-center items-center flex-col backdrop-blur-sm dark:text-stone-300 rounded">
                     <div class="text-center">
-                        <span >DEVELOPED BY</span>
+                        <span>DEVELOPED BY</span>
                         <a target="_blank" class="font-semibold group hover:text-sky-500  inline-flex items-center" href="https://github.com/artanvrajolli">
                             <span>Artan Vrajolli</span>
                             <span class="ms-1  transition-all texl-2xl" x-html="externalLinkIcon"></span>
                         </a>
                     </div>
                     <div class="flex">
-                        <span class="font-normal me-1"> USED </span>
                         <div @click="technologies.show = !technologies.show" class="cursor-pointer hover:text-sky-500  flex items-center font-semibold">
                             <span>Technologies</span>
                             <span class="mx-1  transition-all texl-2xl" x-html="codeIcon"></span>
                         </div>
+                        <span class="font-normal me-1"> USED </span>
                     </div>
                 </div>
 
@@ -143,8 +141,7 @@
                     <li @click="window.open(t.url, '_blank')" x-bind:data-info="t.usedFor" x-show="!t?.type" class="cursor-pointer group before:text-center before:hidden hover:before:block before:content-[attr(data-info)] before:text-sm before:left-0 before:right-0 before:bg-white before:mt-1 before:border before:top-full before:absolute before:p-1 dark:before:bg-slate-700 before:rounded-sm flex items-center">
                         <img :src="`./image/${t.image}`" :alt="t.name" class=" w-[35px] h-[35px] me-1 object-contain" />
                         <div x-text="t.name"></div>
-                        <div class="invisible mx-1 transition-opacity group-hover:visible" x-html="externalLinkIcon"></div>
-                        <div class="cursor-help  ms-auto px-1 text-xl" x-html="questionIcon"></div>
+                        <div class="invisible ps-4 transition-opacity group-hover:visible cursor-help  ms-auto text-lg" x-html="externalLinkIcon"></div>
                     </li>
                 </template>
             </ul>
@@ -156,11 +153,11 @@
 
     <div x-show="croppedData.modal === 'show'" class="fixed z-50 inset-0 overflow-y-auto  backdrop-blur">
         <div class="flex items-center justify-center min-h-screen">
-            <div class="fixed inset-0 bg-gray-500 opacity-75"></div>
+            <div @click="handleCloseCropModal" class="fixed inset-0 bg-gray-500 opacity-75"></div>
             <div class="bg-white rounded-lg overflow-hidden shadow-xl">
                 <div class="relative">
                     <div class="relative bg-white">
-                        <img class="max-w-full w-full min-w-[300px] border border-dashed max-h-[500px] object-contain"
+                        <img style="background-image: radial-gradient(#dbdbdb 1px, transparent 0); background-size: 20px 20px; background-position: -19px -19px;" class="max-w-full w-full min-w-[300px] border border-dashed max-h-[500px] object-contain"
                             src="#" alt="cropped image" x-ref="croppedImage" />
                         <div class="absolute font-medium bottom-0 right-0 backdrop-blur bg-white/75 px-1">
                             <span x-text="croppedData.size.width"></span>
@@ -191,7 +188,7 @@
                             </button>
                         </div>
                     </div>
-                    <div @click="croppedData.modal = 'hidden'"
+                    <div @click="handleCloseCropModal"
                         class="cursor-pointer absolute top-0 right-0 text-2xl text-red-600 z-50" x-html="removeIcon">
                     </div>
                 </div>
@@ -222,7 +219,7 @@
                         </div>
                     </div>
 
-                    <span @click="detectObjects.show = !detectObjects.show" class="cursor-pointer select-none">
+                    <span class="cursor-pointer select-none">
                         <span x-text="detectObjects.objectsList.length"
                             class="before:content-['Detected'] before:me-1 inline-flex items-center px-1.5 py-0.25 rounded-md text-sm font-medium bg-green-100 text-green-800"
                             x-show="detectObjects.status === 'success'">
@@ -231,7 +228,7 @@
 
                     <span class="ms-1" x-show="detectObjects.status === 'loading'">Detecting.</span>
                     <span x-show="detectObjects.status === 'failed'">[Error detected]</span>
-                    <span x-show="detectObjects.show" class="absolute bottom-0 z-10 translate-y-full right-0">
+                    <span  class="absolute bottom-0 z-10 translate-y-full right-0">
                         <ul class="bg-white/75 text-black not:empty:p-4 rounded-sm">
                             <template x-if="detectObjects.status === 'success'">
                                 <template x-if="detectObjects.objectsList.length > 0">
@@ -254,6 +251,7 @@
             <img class="block max-w-full" x-ref="imageRef" x-on:load="handleImageLoaded(event);" crossorigin="anonymous" id="image">
         </div>
     </div>
+
 </body>
 <script type="module" src="./script.js"></script>
 </html>

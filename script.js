@@ -2,6 +2,7 @@
 import Cropper from 'cropperjs';
 import Alpine from 'alpinejs';
 import moment from 'moment';
+
 window.Alpine = Alpine
 
 Alpine.data('cropperData', () => ({
@@ -101,6 +102,8 @@ Alpine.data('cropperData', () => ({
         }
     ]},
     init: function () {
+        this.defaultUploadInfo = Object.assign({}, this.uploadInfo);
+
         this.workerIndexedDB.onmessage = this.handleWorkerIndexedDB.bind(this);
         // this.workerIndexedDB.postMessage({type:'ping'});
         this.workerIndexedDB.postMessage({
@@ -110,23 +113,25 @@ Alpine.data('cropperData', () => ({
         this.workerModel.onmessage = this.handleWorkerModel.bind(this);
         // this.workerModel.postMessage({type:'ping'});
         this.$watch('_hasImage', (value) => {
-            if (value) {
-                this.initCropper();
-            }
+            value && this.initCropper();
         });
 
 
         // start line dark mode and light mode
-        this.$watch('theme', (value) => {
-            if(value === 'dark') {
-                document.documentElement.classList.add('dark');
-            }else{
-                document.documentElement.classList.remove('dark');
+        this.$watch('theme', (newThemeValue) => {
+            switch(newThemeValue) {
+                case 'dark':
+                    document.documentElement.classList.add('dark');
+                    break;
+                case 'light':
+                    document.documentElement.classList.remove('dark');
+                    break;
             }
-            window.localStorage.setItem('theme', value);
+            window.localStorage.setItem('theme', newThemeValue);
         });
         this.theme = window.localStorage.getItem('theme') ?? 'light';
         // end line dark mode and light mode
+
 
         let id = window.location.hash.match(/#id=(\d+)/)?.[1];
         if (id) {
@@ -180,8 +185,6 @@ Alpine.data('cropperData', () => ({
                 this.handleCropButton();
                 return;
             }
-
-            
         });
 
 
@@ -309,6 +312,10 @@ Alpine.data('cropperData', () => ({
             };
         });
     },
+    handleCloseCropModal: function () {
+        this.croppedData.modal = 'hidden';
+        this.uploadInfo = Object.assign({}, this.defaultUploadInfo);
+    },
     getImageData: function () {
         let img = this.$refs.imageRef;
         let canvas = document.createElement('canvas');
@@ -419,7 +426,6 @@ Alpine.data('cropperData', () => ({
                 let { status } = e.data;
                 this.detectObjects.status = status;
                 this.detectObjects.objectsList = e?.data?.predictions ?? [];
-                this.detectObjects.show = true;
                 break;
             default:
                 console.log('Unknown message type', type);

@@ -203,6 +203,26 @@ class storeIndexedDB{
         };
     }
 
+
+    getImagesCount(callback = ()=>{}){
+        if(!this.db){
+            this.queueJobs.push({
+                type: 'getImagesCount',
+                args: [callback]
+            });
+            return;
+        }
+        let transaction = this.db.transaction(['images'], 'readonly');
+        let objectStore = transaction.objectStore('images');
+        let request = objectStore.count();
+        request.onerror = function(event) {
+          console.log('Error getting data: ' + event.target.errorCode);
+        };
+        request.onsuccess = function(event) {
+            let {result} = event.target;
+            callback(result,'success');
+        };
+    }
 }
 
 
@@ -215,12 +235,16 @@ onmessage = function(event){
     switch(type){
         case 'ping':
             console.log('---[Worker IndexedDB Alive]---');
-            sIDB.getImages(0,4,(result,status)=>{
-                postMessage({
-                    type: 'ping',
-                    result,
-                    status,
-                });
+            // sIDB.getImages(0,4,(result,status)=>{
+            //     postMessage({
+            //         type: 'ping',
+            //         result,
+            //         status,
+            //     });
+            // });
+            sIDB.getImagesCount((result,status)=>{
+                console.log('result:',result);
+                console.log('status:',status);
             });
         break;
 
