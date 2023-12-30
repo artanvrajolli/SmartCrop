@@ -218,6 +218,11 @@ Alpine.data('cropperData', () => ({
         this._inputImage.status = 'loading';
         this._inputImage.id = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
     },
+    fetchImageFromPasteButton: function () {
+        navigator.clipboard.readText().then((text) => {
+            this.setImage(text, true);
+        });
+    },
     removeImage: function (pushHistory = false, options = {}) {
         if (pushHistory) {
             let url = new URL(window.location.href);
