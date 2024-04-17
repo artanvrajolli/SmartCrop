@@ -257,8 +257,8 @@ Alpine.data('cropperData', () => ({
             autoCropArea: 1,
             guides: false,
             center: true,
-            minContainerWidth: this.$refs.imageRef.offsetWidth || window.innerWidth,
-            minContainerHeight: this.$refs.imageRef.offsetHeight || window.innerHeight,
+            // minContainerWidth: this.$refs.imageRef.offsetWidth || window.innerWidth,
+            // minContainerHeight: this.$refs.imageRef.offsetHeight || window.innerHeight,
             ready: () => {
                 this.workerModel.postMessage({
                     type: 'detectObjects',

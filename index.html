@@ -11,7 +11,7 @@
 </head>
 
 <body x-data="cropperData">
-    <div class="flex flex-col justify-center items-center min-h-screen bg-custom-handler" x-show="!_hasImage">
+    <div style="height:100svh" class="flex flex-col justify-center items-center w-full bg-custom-handler" x-show="!_hasImage">
         <h1 class="text-4xl font-bold text-gray-900 relative pb-2">
             <h1 class="text-4xl pb-2 font-bold text-center text-gray-800 dark:text-stone-300">
                 <template x-for="item,index in 'SmartCrop'" x-key="index">
@@ -111,7 +111,7 @@
 
             </div>
 
-            <div class="flex flex-col items-center absolute bottom-5 z-10">
+            <div class="flex flex-col items-center bottom-5 z-10">
                 <div class=" backdrop-blur-sm bg-white dark:bg-gray-700 rounded-full ">
                     <a class="flex justify-center text-xl">
                         <span @click="theme = theme == 'dark' ? 'light' : 'dark' "
@@ -175,8 +175,8 @@
         <div class="flex items-center justify-center min-h-screen">
             <div @click="handleCloseCropModal" class="fixed inset-0 bg-gray-500 opacity-75"></div>
             <div class="bg-white rounded-lg overflow-hidden shadow-xl">
-                <div class="relative">
-                    <div class="relative bg-white">
+                <div class="relative max-h-screen flex flex-col">
+                    <div class="relative bg-white flex-shrink">
                         <img style="background-image: radial-gradient(#dbdbdb 1px, transparent 0); background-size: 20px 20px; background-position: -19px -19px;"
                             class="max-w-full w-full min-w-[300px] border border-dashed max-h-[500px] object-contain"
                             src="#" alt="cropped image" x-ref="croppedImage" />
@@ -210,7 +210,7 @@
                         </div>
                     </div>
                     <div @click="handleCloseCropModal"
-                        class="cursor-pointer absolute top-0 right-0 text-2xl text-red-600 z-50" x-html="removeIcon">
+                        class="cursor-pointer absolute bg-white rounded-full top-0 right-0 text-3xl text-red-600  z-50" x-html="removeIcon">
                     </div>
                 </div>
             </div>
@@ -219,17 +219,17 @@
 
     <div class="h-screen overflow-hidden flex flex-col" x-show="_hasImage">
         <div class="w-screen flex bg-gray-700 items-center">
-            <div class="container mx-auto flex items-center z-10">
-                <div class="flex items-center ms-2 justify-center text-red-500 cursor-pointer text-2xl  relative
+            <div class="container mx-auto flex  z-10">
+                <div class="flex items-center ms-2 justify-center text-red-500 hover:bg-red-500 hover:text-white cursor-pointer text-3xl  relative
                     before:absolute before:bg-white before:inset-1.5     before:-z-10 before:rounded-full
                 " x-html="removeIcon" @click="removeImage(true)"></div>
-                <div class="ms-auto relative flex text-white items-center my-0.5">
+                <div class="ms-auto relative inline-flex items-center text-white">
                     <div class="bg-gray-700 text-white me-2">
                         <div class="container flex justify-between mx-auto">
                             <span></span>
                             <div class="flex items-center">
                                 <button :disabled="croppedData.status != 'idle'" @click="handleCropButton"
-                                    class="flex items-center bg-blue-500 hover:bg-blue-700 text-white font-semibold  px-1 rounded-sm disabled:opacity-50 disabled:pointer-events-none">
+                                    class="flex h-8 px-2 items-center bg-blue-500 hover:bg-blue-700 text-white font-semibold rounded-sm disabled:opacity-50 disabled:pointer-events-none">
                                     <span x-show="croppedData.status == 'loading'" class="animate-spin me-1"
                                         x-html="spinnerIcon"></span>
                                     <span x-html="cropIcon" class="me-1 text-2xl"
