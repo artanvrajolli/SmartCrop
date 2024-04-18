@@ -3,7 +3,8 @@ import Cropper from 'cropperjs';
 import Alpine from 'alpinejs';
 import moment from 'moment';
 
-window.Alpine = Alpine
+window.Alpine = Alpine;
+const dd = console.log;
 
 Alpine.data('cropperData', () => ({
     // icons
@@ -247,18 +248,31 @@ Alpine.data('cropperData', () => ({
 
     },
     initCropper: async function () {
+
+        await new Promise((resolve, reject) => {
+            this.$refs.imageRef.onload = ()=>{
+                setTimeout(()=>{
+                    resolve();
+                }, 100);
+            };
+            this.$refs.imageRef.onerror = ()=>{
+                setTimeout(()=>{
+                    reject();
+                }, 100);
+            }
+        });
+        
         if (this.cropper) {
             this.cropper.replace(this.$refs.imageRef.src);
             return;
         }
-        await new Promise(resolve => setTimeout(resolve, 100));
         this.cropper = new Cropper(this.$refs.imageRef, {
             zoomable: false,
             autoCropArea: 1,
             guides: false,
             center: true,
-            // minContainerWidth: this.$refs.imageRef.offsetWidth || window.innerWidth,
-            // minContainerHeight: this.$refs.imageRef.offsetHeight || window.innerHeight,
+            minContainerWidth: this.$refs.imageRef.offsetWidth || window.innerWidth,
+            minContainerHeight: document.getElementById('container-image-cropper')?.getBoundingClientRect()?.height,
             ready: () => {
                 this.workerModel.postMessage({
                     type: 'detectObjects',
