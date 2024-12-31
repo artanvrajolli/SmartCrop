@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="https://unpkg.com/cropperjs/dist/cropper.min.css">
 </head>
 
-<body x-data="cropperData">
-    <div style="height:100svh" class="flex flex-col justify-center items-center w-full bg-custom-handler" x-show="!_hasImage">
+<body x-data="cropperData" ontouchstart="">
+    <div style="height:100svh" class="flex flex-col justify-center items-center w-full bg-custom-handler overflow-hidden" x-show="!_hasImage">
         <h1 class="text-4xl font-bold text-gray-900 relative pb-2">
             <h1 class="text-4xl pb-2 font-bold text-center text-gray-800 dark:text-stone-300">
                 <template x-for="item,index in 'SmartCrop'" x-key="index">

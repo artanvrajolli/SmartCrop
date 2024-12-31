@@ -1,4 +1,3 @@
-
 import Cropper from 'cropperjs';
 import Alpine from 'alpinejs';
 import moment from 'moment';
@@ -170,8 +169,10 @@ Alpine.data('cropperData', () => ({
             event.preventDefault();
         });
 
-
-
+        // Add touch event listeners for mobile devices
+        document.addEventListener('touchstart', this.handleTouchStart.bind(this), false);
+        document.addEventListener('touchmove', this.handleTouchMove.bind(this), false);
+        document.addEventListener('touchend', this.handleTouchEnd.bind(this), false);
 
         document.addEventListener('keydown', (e) => {
             if(e.key === 'Escape' && this.croppedData.modal === 'show') {
@@ -279,7 +280,11 @@ Alpine.data('cropperData', () => ({
                     image: this.getImageData(),
                     imageId: this._inputImage.id,
                 });
-            }
+            },
+            // Add touch event handlers for mobile devices
+            touchStart: this.handleTouchStart.bind(this),
+            touchMove: this.handleTouchMove.bind(this),
+            touchEnd: this.handleTouchEnd.bind(this)
         });
         window.addEventListener('resize', () => {
             clearTimeout(this._resizeTimer);
@@ -498,8 +503,32 @@ Alpine.data('cropperData', () => ({
             default:
                 console.log('Unknown message type', type);
         }
-    }
+    },
 
+    // Add touch event handlers for mobile devices
+    handleTouchStart: function (event) {
+        if (event.touches.length === 1) {
+            this.cropper.setDragMode('move');
+        } else if (event.touches.length === 2) {
+            this.cropper.setDragMode('crop');
+        }
+    },
+    handleTouchMove: function (event) {
+        if (event.touches.length === 1) {
+            this.cropper.move(event.touches[0].pageX, event.touches[0].pageY);
+        } else if (event.touches.length === 2) {
+            const touch1 = event.touches[0];
+            const touch2 = event.touches[1];
+            const distance = Math.sqrt(
+                Math.pow(touch2.pageX - touch1.pageX, 2) +
+                Math.pow(touch2.pageY - touch1.pageY, 2)
+            );
+            this.cropper.zoomTo(distance / 100);
+        }
+    },
+    handleTouchEnd: function (event) {
+        this.cropper.setDragMode('none');
+    }
 
 }))
 
