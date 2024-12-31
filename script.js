@@ -1,4 +1,3 @@
-
 import Cropper from 'cropperjs';
 import Alpine from 'alpinejs';
 import moment from 'moment';
@@ -170,8 +169,10 @@ Alpine.data('cropperData', () => ({
             event.preventDefault();
         });
 
-
-
+        // Add touch event listeners for mobile interactions
+        document.addEventListener('touchstart', this.handleTouchStart.bind(this), false);
+        document.addEventListener('touchmove', this.handleTouchMove.bind(this), false);
+        document.addEventListener('touchend', this.handleTouchEnd.bind(this), false);
 
         document.addEventListener('keydown', (e) => {
             if(e.key === 'Escape' && this.croppedData.modal === 'show') {
@@ -498,12 +499,78 @@ Alpine.data('cropperData', () => ({
             default:
                 console.log('Unknown message type', type);
         }
+    },
+
+    // Add touch event handlers
+    handleTouchStart: function (event) {
+        // Handle touch start event
+        if (event.touches.length === 1) {
+            this.touchStartX = event.touches[0].clientX;
+            this.touchStartY = event.touches[0].clientY;
+        }
+    },
+    handleTouchMove: function (event) {
+        // Handle touch move event
+        if (event.touches.length === 1) {
+            this.touchMoveX = event.touches[0].clientX;
+            this.touchMoveY = event.touches[0].clientY;
+        }
+    },
+    handleTouchEnd: function (event) {
+        // Handle touch end event
+        if (this.touchStartX && this.touchMoveX && this.touchStartY && this.touchMoveY) {
+            const deltaX = this.touchMoveX - this.touchStartX;
+            const deltaY = this.touchMoveY - this.touchStartY;
+
+            if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                if (deltaX > 0) {
+                    // Swipe right
+                    this.navigateRecentImages('right');
+                } else {
+                    // Swipe left
+                    this.navigateRecentImages('left');
+                }
+            } else {
+                if (deltaY > 0) {
+                    // Swipe down
+                    this.adjustCropArea('down');
+                } else {
+                    // Swipe up
+                    this.adjustCropArea('up');
+                }
+            }
+
+            // Reset touch coordinates
+            this.touchStartX = null;
+            this.touchMoveX = null;
+            this.touchStartY = null;
+            this.touchMoveY = null;
+        }
+    },
+
+    navigateRecentImages: function (direction) {
+        const currentIndex = this.recentImages.imagesList.findIndex(image => image.id === this._inputImage.id);
+        if (direction === 'right' && currentIndex < this.recentImages.imagesList.length - 1) {
+            this.loadImageFromId(this.recentImages.imagesList[currentIndex + 1].id);
+        } else if (direction === 'left' && currentIndex > 0) {
+            this.loadImageFromId(this.recentImages.imagesList[currentIndex - 1].id);
+        }
+    },
+
+    adjustCropArea: function (direction) {
+        const cropBoxData = this.cropper.getCropBoxData();
+        const step = 10; // Adjust the step value as needed
+
+        if (direction === 'up') {
+            cropBoxData.height -= step;
+        } else if (direction === 'down') {
+            cropBoxData.height += step;
+        }
+
+        this.cropper.setCropBoxData(cropBoxData);
     }
 
-
 }))
-
-
 
 async function generateHashBlob(blob) {
     const buffer = await blob.arrayBuffer();
@@ -512,8 +579,5 @@ async function generateHashBlob(blob) {
     const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     return hashHex;
 }
-
-
-
 
 Alpine.start();

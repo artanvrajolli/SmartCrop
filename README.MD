@@ -44,6 +44,9 @@ SmartCrop uses IndexedDB to store the crop data for each image. This allows the 
 ## Cors Proxy
 SmartCrop uses a CORS proxy to fetch images from external websites. This is necessary because of the CORS policy that prevents websites from accessing resources on other domains. The CORS proxy can be found [Github](https://github.com/artanvrajolli/CorsNova) and it is hosted on vercel [Website](https://corsnova.vercel.app/).
 
+## Mobile Optimization
+SmartCrop is optimized for mobile devices to provide a better user experience. The application includes responsive design elements, mobile-specific styles, and logic to handle touch events and responsive layouts. This ensures that the application is usable and visually appealing on smaller screens.
+
 ## Credits
 
 SmartCrop was created by Artan Vrajolli. It uses the following open-source libraries:
@@ -56,6 +59,4 @@ SmartCrop was created by Artan Vrajolli. It uses the following open-source libra
 ## License
 
 SmartCrop is licensed under the [MIT License](LICENSE).
-
-
 
