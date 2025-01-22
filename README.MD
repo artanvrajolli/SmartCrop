@@ -5,7 +5,11 @@ SmartCrop is a web application that uses Mobilenet to detect images and help use
 
 
 ### Plans for the future ###
-- [ ] Use IndexedDB to store mobileNet data
+- [ ] Use IndexedDB to store MobileNet data
+- [ ] Add image previews to README.md
+- [ ] Add demo image
+
+# Done
 - [x] Use IndexedDB to store the crop data for each image
 - [x] Use web workers to offload the heavy computation of image detection to a separate thread
 - [x] Use a CORS proxy to fetch images from external websites
@@ -13,6 +17,7 @@ SmartCrop is a web application that uses Mobilenet to detect images and help use
 - [x] Add thumbnails for recent images smaller size and faster loading
 - [x] Add a button to clear recent images
 - [x] Add a button to clear recent image for a specific image
+
 
 
 ## Demo
