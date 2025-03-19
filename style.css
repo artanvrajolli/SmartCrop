@@ -25,3 +25,9 @@ img {
     background-size: 100%, 150px;
 }
 
+
+.cropper-point{
+    box-sizing: content-box;
+    border:3px solid #3884d340;
+    border-radius: 2px;
+}

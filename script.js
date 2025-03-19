@@ -269,10 +269,11 @@ Alpine.data('cropperData', () => ({
         this.cropper = new Cropper(this.$refs.imageRef, {
             zoomable: false,
             autoCropArea: 1,
-            guides: false,
+            guides: true,
             center: true,
             minContainerWidth: this.$refs.imageRef.offsetWidth || window.innerWidth,
             minContainerHeight: document.getElementById('container-image-cropper')?.getBoundingClientRect()?.height,
+
             ready: () => {
                 this.workerModel.postMessage({
                     type: 'detectObjects',
