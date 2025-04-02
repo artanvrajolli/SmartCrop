@@ -28,6 +28,6 @@ img {
 
 .cropper-point{
     box-sizing: content-box;
-    border:3px solid #3884d340;
+    border: 1px solid #3884d340;
     border-radius: 2px;
 }

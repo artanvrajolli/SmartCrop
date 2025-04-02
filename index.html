@@ -185,18 +185,20 @@
                             <span class="font-regular">x</span>
                             <span x-text="croppedData.size.height"></span>
                         </div>
+                        <div class="absolute bottom-0 left-0">
+                            <span class="[&.data-copied]:before:content-['COPIED'] bg-black/50 px-2 text-white -translate-x-1 before:bg-white/75 w-full before:text-sm before:duration-2500 before:transition-opacity before:px-1 before:rounded before:opacity-0 hover:before:opacity-100 before:left-1/2 before:-translate-x-1/2 cursor-pointer before:absolute before:bottom-full  relative empty:before:content-[''] before:content-['COPY'] mx-2 hover:text-sky-500"
+                            @click="copyToClipboard(event)" x-text="uploadInfo.imgur"></span>
+                        </div>
                     </div>
                     <hr />
-                    <div class="flex justify-between">
+                    <div class="flex justify-between flex-wrap">
                         <button @click="downloadCroppedImage"
                             class="bg-green-500 hover:bg-green-700 text-white font-regular py-1 px-4 rounded disabled:opacity-50 disabled:pointer-events-none">
                             Download
                         </button>
 
                         <div class="flex items-center">
-                            <span
-                                class="[&.data-copied]:before:content-['COPIED'] before:bg-white/75 before:text-sm before:duration-2500 before:transition-opacity before:px-1 before:rounded before:opacity-0 hover:before:opacity-100 before:left-1/2 before:-translate-x-1/2 cursor-pointer before:absolute before:bottom-full  relative empty:before:content-[''] before:content-['COPY'] mx-2 hover:text-sky-500"
-                                @click="copyToClipboard(event)" x-text="uploadInfo.imgur"></span>
+                            
                             <span class="mx-2 animate-spin" x-show="uploadInfo.status === 'loading'"
                                 x-html="spinnerIcon">Uploading...</span>
                             <button x-bind:disabled="uploadInfo.status === 'loading'" @click="uploadImageImgur"

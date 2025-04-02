@@ -1,4 +1,3 @@
-
 import Cropper from 'cropperjs';
 import Alpine from 'alpinejs';
 import moment from 'moment';
@@ -69,37 +68,37 @@ Alpine.data('cropperData', () => ({
             name: 'Tensorflow',
             image: 'tensorflow.svg',
             url: 'https://www.tensorflow.org/',
-            usedFor: 'has been used for object detection.',
+            usedFor: 'Facilitates object detection through advanced machine learning models.',
         },{
             name: 'CropperJS',
             image: 'cropperjs.svg',
             url: 'https://fengyuanchen.github.io/cropperjs/',
-            usedFor: 'has been used for cropping images.',
+            usedFor: 'Provides robust image cropping functionality with an intuitive interface.',
         },{
             name: 'Vite',
             image: 'vitejs.svg',
             url: 'https://vitejs.dev/',
-            usedFor: 'has been used for bundling the app.',
+            usedFor: 'Enables fast and efficient bundling of the application.',
         },{
             name: 'AlpineJS',
             image: 'alpinejs.svg',
             url: 'https://alpinejs.dev/',
-            usedFor: 'has been used for the UI and logic of the app.',
+            usedFor: 'Handles the UI and application logic with a lightweight framework.',
         },{
             name: 'TailwindCSS',
             image: 'tailwindcss.svg',
             url: 'https://tailwindcss.com/',
-            usedFor: 'has been used for styling the app.',
+            usedFor: 'Simplifies styling with utility-first CSS classes.',
         },{
             name: 'Web Workers',
             image: 'webworker.svg',
             url: 'https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API',
-            usedFor: 'has been used for running the object detection model in a separate thread.',
+            usedFor: 'Runs the object detection model in a separate thread for better performance.',
         },{
             name: 'IndexedDB',
             image: 'indexeddb.svg',
             url: 'https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API',
-            usedFor: 'has been used for storing the images in the browser locally.',
+            usedFor: 'Stores images locally in the browser for offline access and persistence.',
         }
     ]},
     init: function () {
@@ -209,8 +208,8 @@ Alpine.data('cropperData', () => ({
         });
     },
 
-    setImage: function (url, shouldUseProxy = false) {
-        if (shouldUseProxy) {
+    setImage: function (url, useProxy = false) {
+        if (useProxy) {
             url = `https://corsnova.vercel.app/?url=${encodeURIComponent(url)}`;
         }
         this.$refs.imageRef.setAttribute('src', url);
