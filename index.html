@@ -11,7 +11,7 @@
 </head>
 
 <body x-data="cropperData">
-    <div style="height:100svh" class="flex flex-col justify-center items-center w-full bg-custom-handler" x-show="!_hasImage">
+    <div style="height:100svh" class="flex px-3 flex-col justify-center items-center w-full bg-custom-handler" x-show="!_hasImage">
         <h1 class="text-4xl font-bold text-gray-900 relative pb-2">
             <h1 class="text-4xl pb-2 font-bold text-center text-gray-800 dark:text-stone-300">
                 <template x-for="item,index in 'SmartCrop'" x-key="index">
@@ -51,7 +51,7 @@
                         @change="setImage(event.target.value,true);"
                         class="form-input flex-grow dark:text-stone-300 mt-2 border border-sm bg-gray-300 dark:bg-gray-700 px-2 py-1"
                         pattern="https?://.+" />
-                        <button @click="fetchImageFromPasteButton()" class="bg-blue-400 hover:bg-blue-500 text-white text-sm py-1 px-3 rounded mt-2">Paste</button>
+                        <button @click="fetchImageFromPasteButton()" class="bg-blue-400 hover:bg-blue-500 text-white text-sm py-1 px-3 rounded-r mt-2">Paste</button>
                     </div>
                 </div>
 
@@ -180,13 +180,13 @@
                         <img style="background-image: radial-gradient(#dbdbdb 1px, transparent 0); background-size: 20px 20px; background-position: -19px -19px;"
                             class="max-w-full w-full min-w-[300px] border border-dashed max-h-[500px] object-contain"
                             src="#" alt="cropped image" x-ref="croppedImage" />
-                        <div class="absolute font-medium bottom-0 right-0 backdrop-blur bg-white/75 px-1">
+                        <div class="absolute italic font-medium bottom-0 right-0 backdrop-blur bg-white/75 px-1">
                             <span x-text="croppedData.size.width"></span>
                             <span class="font-regular">x</span>
                             <span x-text="croppedData.size.height"></span>
                         </div>
                         <div class="absolute bottom-0 left-0">
-                            <span class="[&.data-copied]:before:content-['COPIED'] bg-black/50 px-2 text-white -translate-x-1 before:bg-white/75 w-full before:text-sm before:duration-2500 before:transition-opacity before:px-1 before:rounded before:opacity-0 hover:before:opacity-100 before:left-1/2 before:-translate-x-1/2 cursor-pointer before:absolute before:bottom-full  relative empty:before:content-[''] before:content-['COPY'] mx-2 hover:text-sky-500"
+                            <span class="[&.data-copied]:before:content-['COPIED'] empty:hidden bg-black/50 px-2 text-white -translate-x-1 before:bg-white/75 w-full before:text-sm before:duration-2500 before:transition-opacity before:px-1 before:rounded before:opacity-0 hover:before:opacity-100 before:left-1/2 before:-translate-x-1/2 cursor-pointer before:absolute before:bottom-full  relative empty:before:content-[''] before:content-['COPY'] mx-2 hover:text-sky-500"
                             @click="copyToClipboard(event)" x-text="uploadInfo.imgur"></span>
                         </div>
                     </div>
@@ -212,7 +212,7 @@
                         </div>
                     </div>
                     <div @click="handleCloseCropModal"
-                        class="cursor-pointer absolute bg-white rounded-full top-0 right-0 text-3xl text-red-600  z-50" x-html="removeIcon">
+                        class="cursor-pointer bg-white absolute rounded-full top-0 right-0 text-2xl text-red-600 z-50" x-html="removeIcon">
                     </div>
                 </div>
             </div>
@@ -231,7 +231,7 @@
                             <span></span>
                             <div class="flex items-center">
                                 <button :disabled="croppedData.status != 'idle'" @click="handleCropButton"
-                                    class="flex h-8 px-2 items-center bg-blue-500 hover:bg-blue-700 text-white font-semibold rounded-sm disabled:opacity-50 disabled:pointer-events-none">
+                                    class="flex h-8 px-2 items-center bg-blue-600 hover:bg-blue-700 text-white font-semibold  disabled:opacity-50 disabled:pointer-events-none">
                                     <span x-show="croppedData.status == 'loading'" class="animate-spin me-1"
                                         x-html="spinnerIcon"></span>
                                     <span x-html="cropIcon" class="me-1 text-2xl"

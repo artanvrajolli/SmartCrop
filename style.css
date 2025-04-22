@@ -29,5 +29,5 @@ img {
 .cropper-point{
     box-sizing: content-box;
     border: 1px solid #3884d340;
-    border-radius: 2px;
+    border-radius: 1px
 }
