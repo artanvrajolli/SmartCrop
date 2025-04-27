@@ -211,7 +211,7 @@ Alpine.data('cropperData', () => ({
 
     setImage: function (url, useProxy = false) {
         if (useProxy) {
-            url = `https://corsnova.vercel.app/?url=${encodeURIComponent(url)}`;
+            url = `https://corsnova.vercel.app/${encodeURIComponent(url)}`;
         }
         this.$refs.imageRef.setAttribute('src', url);
         this.$refs.imageRef.onload = this.handleImageLoaded.bind(this);
@@ -384,7 +384,7 @@ Alpine.data('cropperData', () => ({
         console.log('newBlob', newBlob);
         console.log('newBlob size:', (newBlob.size / (1024 * 1024)).toFixed(2) + ' MB');
         formData.append('image', newBlob);
-        fetch('https://corsnova.vercel.app/?url=https://api.imgur.com/3/image', {
+        fetch('https://corsnova.vercel.app/https://api.imgur.com/3/image', {
             method: 'POST',
             headers: {
                 'x-Authorization': `Client-ID 33f9077a32a9ea9`,
