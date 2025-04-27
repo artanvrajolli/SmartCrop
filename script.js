@@ -372,22 +372,18 @@ Alpine.data('cropperData', () => ({
     uploadImageImgur: function () {
         this.uploadInfo.status = 'loading';
         this.uploadInfo.imgur = '';
-        
         const formData = new FormData();
-        
         let newBlob = null;
         if(this.croppedData.croppedBlob.size > 1024 * 1024 * 5) {
             newBlob = new Blob([this.croppedData.croppedBlob], {type: 'image/gif'});
         }else{
             newBlob = this.croppedData.croppedBlob
         }
-        console.log('newBlob', newBlob);
-        console.log('newBlob size:', (newBlob.size / (1024 * 1024)).toFixed(2) + ' MB');
         formData.append('image', newBlob);
-        fetch('https://corsnova.vercel.app/https://api.imgur.com/3/image', {
+        fetch('https://api.imgur.com/3/image', {
             method: 'POST',
             headers: {
-                'x-Authorization': `Client-ID 33f9077a32a9ea9`,
+                'Authorization': `Client-ID 33f9077a32a9ea9`,
             },
             body: formData,
         })
