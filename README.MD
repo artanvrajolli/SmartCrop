@@ -6,7 +6,7 @@ SmartCrop is a web application that uses Mobilenet to detect images and help use
 
 ### Plans for the future ###
 - [ ] Use IndexedDB to store MobileNet data
-- [ ] Add image previews to README.md
+- [x] Add image previews to README.md
 - [ ] Add demo image
 
 # Done
@@ -21,7 +21,8 @@ SmartCrop is a web application that uses Mobilenet to detect images and help use
 
 
 ## Demo
-- [Website](https://artanvrajolli.github.io/SmartCrop/)
+<img src="./images/demo_1_featured.gif" alt="Demo 1" height="300">  
+<img src="./images/demo_2_featured.gif" alt="Demo 2" height="300">
 
 ## Installation
 
